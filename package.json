@@ -6,7 +6,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint --fix \"src/**/*.+(ts|tsx)\""
+    "lint": "eslint --fix \"src/**/*.+(ts|tsx)\"",
+    "lint:ci": "eslint \"src/**/*.+(ts|tsx)\""
   },
   "engines": {
     "pnpm": "7",
@@ -17,9 +18,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/jest": "^27.5.2",
     "@types/node": "^16.11.43",
-    "@types/react": "^18.0.14",
+    "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
@@ -28,7 +28,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
     "prettier": "^2.7.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "typescript": "^4.7.4"
   },
   "browserslist": [

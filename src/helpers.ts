@@ -1,7 +1,10 @@
 import React from "react";
 
 export const useLocalStorage = (storageKey: string, fallbackState: number) => {
-  const [value, setValue] = React.useState(JSON.parse(localStorage.getItem(storageKey) || "") ?? fallbackState);
+  const storedValue = localStorage.getItem(storageKey);
+  const existingValue = storedValue ? JSON.parse(storedValue) : undefined;
+
+  const [value, setValue] = React.useState(existingValue ?? fallbackState);
 
   React.useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(value));

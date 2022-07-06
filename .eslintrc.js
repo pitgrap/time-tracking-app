@@ -1,12 +1,9 @@
 module.exports = {
-  parser: "@typescript-eslint/parser", // Specifies the ESLint parser
+  parser: "@typescript-eslint/parser",
   extends: [
     "react-app",
-    "react-app/jest",
-    "plugin:react/recommended", // Uses the recommended rules from @eslint-plugin-react
-    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from @typescript-eslint/eslint-plugin
-    "plugin:import/recommended",
-    "plugin:import/typescript",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
   ],
   parserOptions: {
@@ -28,7 +25,7 @@ module.exports = {
     "node_nodules/",
     "**.js",
   ],
-  "rules": {
+  rules: {
     "prettier/prettier": "warn"
   }
 };
