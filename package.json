@@ -6,7 +6,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint --fix \"src/**/*.+(ts|tsx)\""
+    "lint": "eslint --fix \"src/**/*.+(ts|tsx)\"",
+    "lint:ci": "eslint \"src/**/*.+(ts|tsx)\""
   },
   "engines": {
     "pnpm": "7",
