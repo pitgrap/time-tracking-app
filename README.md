@@ -1,7 +1,7 @@
 # Simple Time Tracking App
 
-Starts automatically time tracking after first visit a day. 
-Uses React and localStorage.
+Starts automatically time tracking after first visit a day. You don't need to 
+stay on the website. Uses React and localStorage.
 
 ## Public App
 

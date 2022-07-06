@@ -1,32 +1,36 @@
 import React, { useEffect, useState } from "react";
+import { datetoKey, msToTime, timeFrameInPercent, useLocalStorage } from "./helpers";
+import { DailyTracking } from "./DailyTracking";
 import logo from "./logo.svg";
 import "./App.css";
-import { msToTime, timeFrameInPercent, useLocalStorage } from "./helpers";
 
 const App: React.FC = () => {
-  const today = new Date().toLocaleDateString();
-  const weekDay = new Date().toLocaleDateString("de-DE", { weekday: "long" });
-  const dailyWork = 1000 * 60 * 60 * 8;
-
+  const dailyWork = 1000 * 60 * 60 * 8; // 8 hours
+  const timer = 1000; // 1 second
   const [now, setDateState] = useState(new Date());
   useEffect(() => {
     setInterval(() => {
       setDateState(new Date());
-    }, 1000);
+    }, timer);
   }, []);
 
-  const [start] = useLocalStorage("start_" + today, now.getTime());
-  const [end, setEnd] = useLocalStorage("end_" + today, now.getTime());
+  const initTracking: DailyTracking = {
+    day: new Date(),
+    start: now.getTime(),
+    end: now.getTime(),
+    duration: 1000,
+  };
 
-  if (end !== now.getTime()) {
-    setEnd(now.getTime());
+  const [tracking] = useLocalStorage(datetoKey(initTracking.day), initTracking);
+  if (tracking.end !== now.getTime()) {
+    tracking.end = now.getTime();
+    tracking.duration = tracking.end - tracking.start;
   }
 
   // ideas:
-  // - settings page for "dailyWork",
+  // - settings page for "dailyWork", etc.
+  // - pause button
   // - stop button
-  // - github repo
-  // - publish github pages
 
   return (
     <div className="app">
@@ -34,15 +38,16 @@ const App: React.FC = () => {
         <h1>Automatische Zeiterfassung</h1>
         <img src={logo} className="app-logo" alt="logo" />
         <h2>
-          {weekDay}, {today}
+          {new Date(tracking.day).toLocaleDateString("de-DE", { weekday: "long" })},{" "}
+          {new Date(tracking.day).toLocaleDateString()}
         </h2>
         <p className="app-overview">
-          Beginn: <time className="app-time">{new Date(start).toLocaleTimeString()}</time>
+          Beginn: <time className="app-time">{new Date(tracking.start).toLocaleTimeString()}</time>
           <br />
-          Ende: <time className="app-time">{new Date(end).toLocaleTimeString()}</time>
+          Ende: <time className="app-time">{new Date(tracking.end).toLocaleTimeString()}</time>
         </p>
         <p>
-          Arbeitszeit: {msToTime(end - start)} ({timeFrameInPercent(end - start, dailyWork)})
+          Arbeitszeit: {msToTime(tracking.duration)} ({timeFrameInPercent(tracking.duration, dailyWork)})
         </p>
       </main>
     </div>
