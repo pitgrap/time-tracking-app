@@ -1,6 +1,7 @@
 import React from "react";
+import { DailyTracking } from "./DailyTracking";
 
-export const useLocalStorage = (storageKey: string, fallbackState: number) => {
+export const useLocalStorage = (storageKey: string, fallbackState: DailyTracking) => {
   const storedValue = localStorage.getItem(storageKey);
   const existingValue = storedValue ? JSON.parse(storedValue) : undefined;
 
@@ -8,15 +9,14 @@ export const useLocalStorage = (storageKey: string, fallbackState: number) => {
 
   React.useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(value));
-  }, [value, storageKey]);
+  }, [value, value.end, storageKey]);
 
   return [value, setValue];
 };
 
 export const msToTime = (timeStamp: number) => {
-  // Pad to 2 or 3 digits, default is 2
-  function pad(number: number, z = 2) {
-    return ("00" + number).slice(-z);
+  function pad(number: number) {
+    return ("00" + number).slice(-2);
   }
 
   const ms = timeStamp % 1000;
@@ -31,4 +31,11 @@ export const msToTime = (timeStamp: number) => {
 
 export const timeFrameInPercent = (timeframe: number, dailyWork: number): string => {
   return Math.round((timeframe / dailyWork) * 100) + "%";
+};
+
+export const datetoKey = (date: Date) => {
+  const day = ("0" + date.getDate()).slice(-2);
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
 };
