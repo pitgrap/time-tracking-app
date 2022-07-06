@@ -1,4 +1,4 @@
-name: Build
+name: Deploy
 
 on:
   push:
@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Deploy app
         run: pnpm run deploy
