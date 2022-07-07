@@ -1,0 +1,46 @@
+.app-settings {
+  display: block;
+  width: 80%;
+  max-width: 600px;
+  min-height: 50%;
+  margin: 40vh auto 0;
+  box-sizing: border-box;
+  border: none;
+  text-align: center;
+  border-radius: 10px;
+  z-index: 3;
+  box-shadow: 10px 10px 50px #000;
+  transform: translateY(-40%);
+}
+
+.action {
+  margin-right: -50px;
+}
+
+.action__button {
+  height: 24px;
+  padding: 2px 20px;
+}
+
+.action__label {
+  display: inline-block;
+  margin-right: 50px;
+  padding-bottom: 5px;
+}
+
+.action__input {
+  max-width: 50px;
+}
+
+.action__result {
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  vertical-align: bottom;
+}
+
+.action__success {
+  display: inline-block;
+  margin-left: 10px;
+  line-height: 1;
+}

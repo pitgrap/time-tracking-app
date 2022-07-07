@@ -1,0 +1,33 @@
+.app-history {
+  display: block;
+  width: 80%;
+  max-width: 600px;
+  min-height: 50%;
+  max-height: 90%;
+  margin: 40vh auto 0;
+  box-sizing: border-box;
+  border: none;
+  text-align: center;
+  border-radius: 10px;
+  z-index: 3;
+  box-shadow: 10px 10px 50px #000;
+  transform: translateY(-40%);
+  overflow-y: auto;
+}
+
+.history__table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: left;
+}
+
+.history__table th {
+  border-bottom: 1px solid #000;
+  padding: 5px;
+}
+
+.history__table td {
+  padding: 5px;
+  font-variant-numeric: tabular-nums;
+}

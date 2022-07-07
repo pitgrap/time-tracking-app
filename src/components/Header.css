@@ -1,0 +1,29 @@
+.app-header {
+  box-sizing: border-box;
+  width: 100%;
+  text-align: right;
+  flex-grow: 0;
+  padding: 20px;
+}
+
+.app-header a {
+  text-decoration: none;
+  color: white;
+}
+
+.app__button {
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.app__button img {
+  transition: transform 0.4s;
+}
+
+.app__button:hover .app__button-config {
+  transform: rotate(90deg);
+}
+
+.app__button:hover .app__button-history {
+  transform: rotate(-360deg);
+}
