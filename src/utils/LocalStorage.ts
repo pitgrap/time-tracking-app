@@ -34,14 +34,18 @@ export const deleteAllTrackings = () => {
   }
 };
 
-export const getAllTrackings = (): Array<DailyTracking> => {
+export const getAllTrackings = (withoutToday = false): Array<DailyTracking> => {
   const allTrackings: Array<DailyTracking> = [];
+  const today = new Date().toLocaleDateString();
 
   for (const key in localStorage) {
     if (key.indexOf(storageKeyPrefix) === 0) {
       const storedTracking = localStorage.getItem(key);
-      if (storedTracking) {
-        allTrackings.push(JSON.parse(storedTracking));
+      console.log(storedTracking);
+      const existingTracking = storedTracking ? JSON.parse(storedTracking) : undefined;
+
+      if (existingTracking && !(withoutToday && today === new Date(existingTracking.day).toLocaleDateString())) {
+        allTrackings.push(existingTracking);
       }
     }
   }

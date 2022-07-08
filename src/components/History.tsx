@@ -11,7 +11,7 @@ export const History: React.FC = () => {
   const { showHistory, toggleHistory } = useAppContext();
   const { settings } = useSettingsContext();
 
-  const allTrackings = getAllTrackings();
+  const allTrackings = getAllTrackings(true);
 
   // ideas:
   // - export as csv
@@ -29,10 +29,12 @@ export const History: React.FC = () => {
               <img src={close} alt="Schliessen" />
             </span>
             <h2>Verlauf</h2>
-            {allTrackings.length === 1 && <p>Kein Verlauf vorhanden.</p>}
-            {allTrackings.length > 1 && (
+            {allTrackings.length === 0 && <p>Kein Verlauf vorhanden.</p>}
+            {allTrackings.length > 0 && (
               <>
-                <p>({allTrackings.length - 1} Einträge gefunden)</p>
+                <p>
+                  ({allTrackings.length} {allTrackings.length === 1 ? "Eintrag" : "Einträge"} gefunden)
+                </p>
                 <table className="history__table">
                   <thead>
                     <tr>
