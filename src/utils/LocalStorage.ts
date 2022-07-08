@@ -41,7 +41,6 @@ export const getAllTrackings = (withoutToday = false): Array<DailyTracking> => {
   for (const key in localStorage) {
     if (key.indexOf(storageKeyPrefix) === 0) {
       const storedTracking = localStorage.getItem(key);
-      console.log(storedTracking);
       const existingTracking = storedTracking ? JSON.parse(storedTracking) : undefined;
 
       if (existingTracking && !(withoutToday && today === new Date(existingTracking.day).toLocaleDateString())) {

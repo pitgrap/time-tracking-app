@@ -4,6 +4,7 @@ import { useSettingsContext } from "../contexts/SettingsContext";
 import { useCloseOnEsc } from "../utils/UI";
 import { getAllTrackings } from "../utils/LocalStorage";
 import { msToTime, timeFrameInPercent } from "../utils/Time";
+import { DailyTracking } from "../models/DailyTracking";
 import close from "../assets/close.svg";
 import "./History.css";
 
@@ -11,7 +12,10 @@ export const History: React.FC = () => {
   const { showHistory, toggleHistory } = useAppContext();
   const { settings } = useSettingsContext();
 
-  const allTrackings = getAllTrackings(true);
+  let allTrackings: Array<DailyTracking> = [];
+  if (showHistory) {
+    allTrackings = getAllTrackings(true);
+  }
 
   // ideas:
   // - export as csv
