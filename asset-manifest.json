@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/time-tracking-app/static/css/main.aff6a7e1.css",
-    "main.js": "/time-tracking-app/static/js/main.24e142fc.js",
+    "main.js": "/time-tracking-app/static/js/main.3854c01b.js",
     "static/media/logo.svg": "/time-tracking-app/static/media/logo.77b39846031bdc305175cff7548978eb.svg",
     "static/media/github.svg": "/time-tracking-app/static/media/github.9921ee5b383b4592f624c73c64c2e454.svg",
     "static/media/config.svg": "/time-tracking-app/static/media/config.1a94c46a83f11ad9134e22c3bcc5d70a.svg",
@@ -10,10 +10,10 @@
     "static/media/close.svg": "/time-tracking-app/static/media/close.21721b2b50ccfc7a781b91954248eca4.svg",
     "static/media/success.svg": "/time-tracking-app/static/media/success.a99892001c54a59ebf95d0831b204861.svg",
     "main.aff6a7e1.css.map": "/time-tracking-app/static/css/main.aff6a7e1.css.map",
-    "main.24e142fc.js.map": "/time-tracking-app/static/js/main.24e142fc.js.map"
+    "main.3854c01b.js.map": "/time-tracking-app/static/js/main.3854c01b.js.map"
   },
   "entrypoints": [
     "static/css/main.aff6a7e1.css",
-    "static/js/main.24e142fc.js"
+    "static/js/main.3854c01b.js"
   ]
 }
