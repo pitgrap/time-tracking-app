@@ -11,6 +11,7 @@
   z-index: 3;
   box-shadow: 10px 10px 50px #000;
   transform: translateY(-40%);
+  padding: 16px 16px 36px 16px;
 }
 
 .action {
@@ -43,4 +44,12 @@
   display: inline-block;
   margin-left: 10px;
   line-height: 1;
+}
+
+.action__splitter {
+  width: 60%;
+  margin: 30px auto 20px auto;
+  border: none;
+  height: 1px;
+  background-color: #ccc;
 }

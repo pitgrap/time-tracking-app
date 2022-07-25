@@ -1,0 +1,22 @@
+{
+  "common": {
+    "title": "Automatic Time Tracking",
+    "settings": "Settings",
+    "editSettings": "Edit settings",
+    "close": "Close",
+    "success": "Successfully changed",
+    "workHours": "Daily work time (in hours)",
+    "language": "Language",
+    "deleteHistory": "Delete history",
+    "history": "History",
+    "showHistory": "Show History",
+    "noHistory": "No history available.",
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "workTime": "Working time",
+    "entry": "entry",
+    "entries": "entries",
+    "found": "found"
+  }
+}

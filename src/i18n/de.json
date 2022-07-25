@@ -1,0 +1,22 @@
+{
+  "common": {
+    "title": "Automatische Zeiterfassung",
+    "settings": "Einstellungen",
+    "editSettings": "Einstellungen ändern",
+    "close": "schließen",
+    "success": "Erfolgreich geändert",
+    "workHours": "Tägliche Arbeitszeit (in Stunden)",
+    "language": "Sprache",
+    "deleteHistory": "Verlauf löschen",
+    "history": "Verlauf",
+    "showHistory": "Verlauf anzeigen",
+    "noHistory": "Kein Verlauf vorhanden.",
+    "date": "Datum",
+    "start": "Beginn",
+    "end": "Ende",
+    "workTime": "Arbeitszeit",
+    "entry": "Eintrag",
+    "entries": "Einträge",
+    "found": "gefunden"
+  }
+}
