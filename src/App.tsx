@@ -1,14 +1,16 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { AppContextProvider } from "./contexts/AppContext";
 import { SettingsContextProvider } from "./contexts/SettingsContext";
+import { initTranslations } from "./utils/Translations";
 import { Header } from "./components/Header";
 import { Tracking } from "./components/Tracking";
 import { SettingsDialog } from "./components/SettingsDialog";
 import { History } from "./components/History";
 import logo from "./assets/logo.svg";
 import "./App.css";
-import "./utils/Translations";
-import { useTranslation } from "react-i18next";
+
+initTranslations();
 
 const App: React.FC = () => {
   const { t } = useTranslation();
