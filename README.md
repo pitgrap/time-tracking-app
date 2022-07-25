@@ -8,13 +8,15 @@ Uses React and localStorage and runs only in your browser.
 
 ## Usage
 
-Make the app as your startpage of your browser or add it as pinned tab to your browser and tracking will work automatically. 
+Make the app as your startpage of your browser or add it as pinned tab to your browser and tracking will work automatically.
 
 ## Public App
 
 https://pitgrap.github.io/time-tracking-app/
 
-## Development 
+Available in English and German.
+
+## Development
 
 ```
 pnpm install

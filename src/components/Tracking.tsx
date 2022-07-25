@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSettingsContext } from "../contexts/SettingsContext";
 import { DailyTracking } from "../models/DailyTracking";
 import { getTodayStorageKey, useLocalStorage } from "../utils/LocalStorage";
@@ -6,6 +7,8 @@ import { msToTime, timeFrameInPercent } from "../utils/Time";
 
 export const Tracking: React.FC = () => {
   const { settings } = useSettingsContext();
+  const { t, i18n } = useTranslation();
+
   const timer = 1000; // 1 second
   const [now, setDateState] = useState(new Date());
   useEffect(() => {
@@ -30,16 +33,17 @@ export const Tracking: React.FC = () => {
   return (
     <>
       <h2>
-        {new Date(tracking.day).toLocaleDateString("de-DE", { weekday: "long" })},{" "}
-        {new Date(tracking.day).toLocaleDateString()}
+        {new Date(tracking.day).toLocaleDateString(i18n.language, { weekday: "long" })},{" "}
+        {new Date(tracking.day).toLocaleDateString(i18n.language)}
       </h2>
       <p className="app-overview">
-        Beginn: <time className="app-time">{new Date(tracking.start).toLocaleTimeString()}</time>
+        {t("start")}: <time className="app-time">{new Date(tracking.start).toLocaleTimeString(i18n.language)}</time>
         <br />
-        Ende: <time className="app-time">{new Date(tracking.end).toLocaleTimeString()}</time>
+        {t("end")}: <time className="app-time">{new Date(tracking.end).toLocaleTimeString(i18n.language)}</time>
       </p>
       <p>
-        Arbeitszeit: {msToTime(tracking.duration)} ({timeFrameInPercent(tracking.duration, settings?.dailyWork || 8)})
+        {t("workTime")}: {msToTime(tracking.duration)} (
+        {timeFrameInPercent(tracking.duration, settings?.dailyWork || 8)})
       </p>
     </>
   );

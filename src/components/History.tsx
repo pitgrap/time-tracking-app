@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
 import { useCloseOnEsc } from "../utils/UI";
@@ -9,6 +10,8 @@ import close from "../assets/close.svg";
 import "./History.css";
 
 export const History: React.FC = () => {
+  const { t, i18n } = useTranslation();
+
   const { showHistory, toggleHistory } = useAppContext();
   const { settings } = useSettingsContext();
 
@@ -30,31 +33,31 @@ export const History: React.FC = () => {
           <div className="app__background" onClick={toggleHistory}></div>
           <dialog className="app-history">
             <span className="app__close" onClick={toggleHistory}>
-              <img src={close} alt="Schliessen" />
+              <img src={close} alt={t("close")} title={t("close")} />
             </span>
-            <h2>Verlauf</h2>
-            {allTrackings.length === 0 && <p>Kein Verlauf vorhanden.</p>}
+            <h2>{t("history")}</h2>
+            {allTrackings.length === 0 && <p>{t("noHistory")}</p>}
             {allTrackings.length > 0 && (
               <>
                 <p>
-                  ({allTrackings.length} {allTrackings.length === 1 ? "Eintrag" : "Einträge"} gefunden)
+                  ({allTrackings.length} {allTrackings.length === 1 ? t("entry") : t("entries")} {t("found")})
                 </p>
                 <table className="history__table">
                   <thead>
                     <tr>
-                      <th>Datum</th>
-                      <th>Start</th>
-                      <th>Ende</th>
-                      <th>Arbeitszeit</th>
+                      <th>{t("date")}</th>
+                      <th>{t("start")}</th>
+                      <th>{t("end")}</th>
+                      <th>{t("workTime")}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {allTrackings.map((tracking, index) => {
                       return (
                         <tr key={index}>
-                          <td>{new Date(tracking.day).toLocaleDateString()}</td>
-                          <td>{new Date(tracking.start).toLocaleTimeString()}</td>
-                          <td>{new Date(tracking.end).toLocaleTimeString()}</td>
+                          <td>{new Date(tracking.day).toLocaleDateString(i18n.language)}</td>
+                          <td>{new Date(tracking.start).toLocaleTimeString(i18n.language)}</td>
+                          <td>{new Date(tracking.end).toLocaleTimeString(i18n.language)}</td>
                           <td>
                             {msToTime(tracking.duration)} (
                             {timeFrameInPercent(tracking.duration, settings?.dailyWork || 8)})
