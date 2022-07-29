@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0
+
+- Added CSV export for history
+- Added average working time and overtime in history
+- Fixed preselected language in settings
+- Updated dependencies
+
 ## 0.4.0
 
  - Added i18n with english and german translation

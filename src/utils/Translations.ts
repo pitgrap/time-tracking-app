@@ -1,4 +1,4 @@
-import i18n from "i18next";
+import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import en from "../i18n/en.json";
@@ -12,9 +12,15 @@ const resources = {
 export const availableLanguages = Object.keys(resources);
 
 export const initTranslations = () => {
-  i18n.use(initReactI18next).use(LanguageDetector).init({
-    resources,
-    defaultNS: "common",
-    fallbackLng: "en",
-  });
+  i18next
+    .use(initReactI18next)
+    .use(LanguageDetector)
+    .init({
+      resources,
+      defaultNS: "common",
+      fallbackLng: "en",
+    })
+    .then(() => {
+      document.documentElement.lang = i18next.language;
+    });
 };

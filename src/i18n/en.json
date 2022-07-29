@@ -17,6 +17,8 @@
     "workTime": "Working time",
     "entry": "entry",
     "entries": "entries",
-    "found": "found"
+    "found": "found",
+    "averageWorkTime": "Average working time",
+    "overtime": "Overtime"
   }
 }

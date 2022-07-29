@@ -42,9 +42,6 @@ export const SettingsDialog: React.FC = () => {
     showNotification(setUpdateLanguageShow);
   };
 
-  // ideas:
-  // - set start of the day manually or reset today
-
   // close on esc
   useCloseOnEsc(showSettings, toggleSettings);
 
@@ -87,7 +84,12 @@ export const SettingsDialog: React.FC = () => {
                 {t("language")}
               </label>
               <br />
-              <select id="language" className="action__select" defaultValue={i18n.language} onChange={changeLanguage}>
+              <select
+                id="language"
+                className="action__select"
+                defaultValue={i18n.language.split("-")[0]}
+                onChange={changeLanguage}
+              >
                 {availableLanguages.map((language, index) => (
                   <option key={index} value={language}>
                     {languageNames.of(language)}
