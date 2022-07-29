@@ -17,6 +17,8 @@
     "workTime": "Arbeitszeit",
     "entry": "Eintrag",
     "entries": "Einträge",
-    "found": "gefunden"
+    "found": "gefunden",
+    "averageWorkTime": "Durchschnittliche Arbeitszeit",
+    "overtime": "Überstunden"
   }
 }

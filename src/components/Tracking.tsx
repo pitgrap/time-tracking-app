@@ -42,7 +42,7 @@ export const Tracking: React.FC = () => {
         {t("end")}: <time className="app-time">{new Date(tracking.end).toLocaleTimeString(i18n.language)}</time>
       </p>
       <p>
-        {t("workTime")}: {msToTime(tracking.duration)} (
+        {t("workTime")}: {msToTime(tracking.duration)} h (
         {timeFrameInPercent(tracking.duration, settings?.dailyWork || 8)})
       </p>
     </>

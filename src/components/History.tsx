@@ -1,10 +1,12 @@
 import React from "react";
+import { CSVLink } from "react-csv";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
+import { generateCSV } from "../utils/CSV";
 import { useCloseOnEsc } from "../utils/UI";
 import { getAllTrackings } from "../utils/LocalStorage";
-import { msToTime, timeFrameInPercent } from "../utils/Time";
+import { getAverageWorkingTime, hoursToMs, msToTime, timeFrameInPercent } from "../utils/Time";
 import { DailyTracking } from "../models/DailyTracking";
 import close from "../assets/close.svg";
 import "./History.css";
@@ -16,12 +18,19 @@ export const History: React.FC = () => {
   const { settings } = useSettingsContext();
 
   let allTrackings: Array<DailyTracking> = [];
+  let averageWorkTime = 0;
+  let csvData: Array<Array<string | number>> = [];
+  let overWork = 0;
   if (showHistory) {
     allTrackings = getAllTrackings(true);
-  }
+    averageWorkTime = getAverageWorkingTime(allTrackings);
+    csvData = generateCSV(allTrackings, settings?.dailyWork || 8, i18n.language);
 
-  // ideas:
-  // - export as csv
+    allTrackings.forEach((tracking) => {
+      overWork = overWork + tracking.duration;
+    });
+    overWork = overWork - allTrackings.length * hoursToMs(settings?.dailyWork || 8);
+  }
 
   // close on esc
   useCloseOnEsc(showHistory, toggleHistory);
@@ -40,7 +49,12 @@ export const History: React.FC = () => {
             {allTrackings.length > 0 && (
               <>
                 <p>
-                  ({allTrackings.length} {allTrackings.length === 1 ? t("entry") : t("entries")} {t("found")})
+                  {t("averageWorkTime")}:{" "}
+                  <b>
+                    {msToTime(averageWorkTime)} h ({timeFrameInPercent(averageWorkTime, settings?.dailyWork || 8)})
+                  </b>
+                  <br />
+                  {t("overtime")}: {msToTime(overWork)} h
                 </p>
                 <table className="history__table">
                   <thead>
@@ -59,7 +73,7 @@ export const History: React.FC = () => {
                           <td>{new Date(tracking.start).toLocaleTimeString(i18n.language)}</td>
                           <td>{new Date(tracking.end).toLocaleTimeString(i18n.language)}</td>
                           <td>
-                            {msToTime(tracking.duration)} (
+                            {msToTime(tracking.duration)} h (
                             {timeFrameInPercent(tracking.duration, settings?.dailyWork || 8)})
                           </td>
                         </tr>
@@ -67,6 +81,17 @@ export const History: React.FC = () => {
                     })}
                   </tbody>
                 </table>
+                <p>
+                  {allTrackings.length} {allTrackings.length === 1 ? t("entry") : t("entries")} {t("found")}.<br />
+                  <CSVLink
+                    className="history__download"
+                    data={csvData}
+                    filename={"time-tracking-history.csv"}
+                    separator={";"}
+                  >
+                    <button>Download (.csv)</button>
+                  </CSVLink>
+                </p>
               </>
             )}
           </dialog>
