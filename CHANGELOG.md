@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+- switched from react-scripts to vite
+
 ## 0.5.0
 
 - Added CSV export for history
