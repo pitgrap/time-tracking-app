@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.1
+
+- added button to settings to reset start time
+- fixed a bug, when tracking is crossing midnight
+
 ## 0.6.0
 
 - switched from react-scripts to vite

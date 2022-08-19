@@ -21,9 +21,13 @@ export const useLocalStorage = (storageKey: string, fallbackState: DailyTracking
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(value));
-  }, [value, value.end, value.dailyWork, storageKey]);
+  }, [value, value.day, value.start, value.end, value.dailyWork, storageKey]);
 
   return [value, setValue];
+};
+
+export const resetTodayLocalStorage = () => {
+  localStorage.setItem("resetToday", "true");
 };
 
 export const deleteAllTrackings = () => {
