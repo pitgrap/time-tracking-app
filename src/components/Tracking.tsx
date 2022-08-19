@@ -25,6 +25,17 @@ export const Tracking: React.FC = () => {
   };
 
   const [tracking] = useLocalStorage(getTodayStorageKey(), initTracking);
+  // reset today
+  if (localStorage.getItem("resetToday") === "true") {
+    tracking.start = now.getTime();
+    localStorage.removeItem("resetToday");
+  }
+  // crossed midnight
+  if (new Date(tracking.day).toLocaleDateString() !== new Date().toLocaleDateString()) {
+    tracking.day = new Date();
+    tracking.start = now.getTime();
+  }
+  // update tracking
   if (tracking.end !== now.getTime()) {
     tracking.end = now.getTime();
     tracking.duration = tracking.end - tracking.start;

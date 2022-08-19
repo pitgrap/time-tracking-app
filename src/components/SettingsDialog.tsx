@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
 import { Settings } from "../models/Settings";
-import { deleteAllTrackings } from "../utils/LocalStorage";
+import { deleteAllTrackings, resetTodayLocalStorage } from "../utils/LocalStorage";
 import { showNotification, useCloseOnEsc } from "../utils/UI";
 import { availableLanguages } from "../utils/Translations";
 import close from "../assets/close.svg";
@@ -17,6 +17,7 @@ export const SettingsDialog: React.FC = () => {
   const [deleteActionShow, setDeleteActionShow] = useState(false);
   const [updateActionShow, setUpdateActionShow] = useState(false);
   const [updateLanguageShow, setUpdateLanguageShow] = useState(false);
+  const [resetActionShow, setResetActionShow] = useState(false);
 
   const changeSettings = (event: React.FormEvent<HTMLInputElement>) => {
     const newDailyWork = parseInt(event.currentTarget.value);
@@ -33,6 +34,11 @@ export const SettingsDialog: React.FC = () => {
   const clearHistory = () => {
     deleteAllTrackings();
     showNotification(setDeleteActionShow);
+  };
+
+  const resetToday = () => {
+    resetTodayLocalStorage();
+    showNotification(setResetActionShow);
   };
 
   const { t, i18n } = useTranslation();
@@ -98,6 +104,21 @@ export const SettingsDialog: React.FC = () => {
               </select>
               <span className="action__result">
                 {updateLanguageShow && (
+                  <span className="action__success">
+                    <img src={success} alt={t("success")} />
+                  </span>
+                )}
+              </span>
+            </div>
+
+            <hr className="action__splitter" />
+
+            <div className="action">
+              <button className="action__button" onClick={resetToday}>
+                {t("resetToday")}
+              </button>
+              <span className="action__result">
+                {resetActionShow && (
                   <span className="action__success">
                     <img src={success} alt={t("success")} />
                   </span>
