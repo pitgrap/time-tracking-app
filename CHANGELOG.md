@@ -1,13 +1,19 @@
 # Changelog
 
+## 0.7.0
+
+- Added new setting "daily automatic break". It will be subtracted from the daily work. The default is "0".
+- Updated node to v18
+- Updated all dependencies
+
 ## 0.6.1
 
-- added button to settings to reset start time
-- fixed a bug, when tracking is crossing midnight
+- Added button to settings to reset start time
+- Fixed a bug, when tracking is crossing midnight
 
 ## 0.6.0
 
-- switched from react-scripts to vite
+- Switched from react-scripts to vite
 
 ## 0.5.0
 
@@ -18,13 +24,13 @@
 
 ## 0.4.0
 
- - Added i18n with english and german translation
- - Added changelog file
- - Updated dependencies
+- Added i18n with english and german translation
+- Added changelog file
+- Updated dependencies
 
 ## 0.3.0
 
-- Fix order of history entries
+- Fixed order of history entries
 
 ## 0.2.0
 
