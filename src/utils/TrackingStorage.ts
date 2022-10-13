@@ -39,7 +39,7 @@ export const deleteAllTrackings = () => {
   }
 };
 
-export const getAllTrackings = (withoutToday = false): Array<DailyTracking> => {
+export const getAllTrackings = (withoutToday = true): Array<DailyTracking> => {
   const allTrackings: Array<DailyTracking> = [];
   const today = new Date().toLocaleDateString();
   const trackingKeys = [];
