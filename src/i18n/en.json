@@ -17,6 +17,7 @@
     "start": "Start",
     "end": "End",
     "workTime": "Working time",
+    "workTimeWithPause": "and {{break}} min break",
     "entry": "entry",
     "entries": "entries",
     "found": "found",

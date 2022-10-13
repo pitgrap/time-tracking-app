@@ -21,13 +21,15 @@ export const History: React.FC = () => {
   let averageWorkTime = 0;
   let csvData: Array<Array<string | number>> = [];
   let overWork = 0;
+  const dailyPauseInMs = (settings?.dailyPause || 0) * 60 * 1000;
+
   if (showHistory) {
-    allTrackings = getAllTrackings(true);
-    averageWorkTime = getAverageWorkingTime(allTrackings);
-    csvData = generateCSV(allTrackings, settings?.dailyWork || 8, i18n.language);
+    allTrackings = getAllTrackings();
+    averageWorkTime = getAverageWorkingTime(allTrackings, dailyPauseInMs);
+    csvData = generateCSV(allTrackings, settings?.dailyWork || 8, settings?.dailyPause || 0, i18n.language);
 
     allTrackings.forEach((tracking) => {
-      overWork = overWork + (tracking.end - tracking.start);
+      overWork = overWork + (tracking.end - tracking.start - dailyPauseInMs);
     });
     overWork = overWork - allTrackings.length * hoursToMs(settings?.dailyWork || 8);
   }
@@ -49,12 +51,16 @@ export const History: React.FC = () => {
             {allTrackings.length > 0 && (
               <>
                 <p>
+                  {t("workTime")}: {msToTime(hoursToMs(settings?.dailyWork || 8))} h
+                  {!!settings?.dailyPause && <> {t("workTimeWithPause", { break: settings?.dailyPause || 0 })}</>}
+                  <br />
                   {t("averageWorkTime")}:{" "}
                   <b>
                     {msToTime(averageWorkTime)} h ({timeFrameInPercent(averageWorkTime, settings?.dailyWork || 8)})
                   </b>
-                  <br />
-                  {t("overtime")}: {msToTime(overWork)} h
+                </p>
+                <p>
+                  {t("overtime")}: <b>{msToTime(overWork)} h</b>
                 </p>
                 <table className="history__table">
                   <thead>
@@ -73,8 +79,12 @@ export const History: React.FC = () => {
                           <td>{new Date(tracking.start).toLocaleTimeString(i18n.language)}</td>
                           <td>{new Date(tracking.end).toLocaleTimeString(i18n.language)}</td>
                           <td>
-                            {msToTime(tracking.end - tracking.start)} h (
-                            {timeFrameInPercent(tracking.end - tracking.start, settings?.dailyWork || 8)})
+                            {msToTime(tracking.end - tracking.start - dailyPauseInMs)} h (
+                            {timeFrameInPercent(
+                              tracking.end - tracking.start - dailyPauseInMs,
+                              settings?.dailyWork || 8
+                            )}
+                            )
                           </td>
                         </tr>
                       );

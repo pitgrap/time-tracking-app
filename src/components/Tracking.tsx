@@ -40,6 +40,8 @@ export const Tracking: React.FC = () => {
   }
 
   const trackingDuration = tracking.end - tracking.start;
+  const trackingWithPause = trackingDuration - (settings?.dailyPause || 0) * 60 * 1000;
+  const moreTrackingWithPause = !!settings?.dailyPause && trackingDuration > (settings?.dailyPause || 0) * 60 * 1000;
 
   return (
     <>
@@ -53,8 +55,20 @@ export const Tracking: React.FC = () => {
         {t("end")}: <time className="app-time">{new Date(tracking.end).toLocaleTimeString(i18n.language)}</time>
       </p>
       <p>
-        {t("workTime")}: {msToTime(trackingDuration)} h (
-        {timeFrameInPercent(trackingDuration, settings?.dailyWork || 8)})
+        {!moreTrackingWithPause && (
+          <>
+            {t("workTime")}: {msToTime(trackingDuration)} h (
+            {timeFrameInPercent(trackingDuration, settings?.dailyWork || 8)})
+          </>
+        )}
+
+        {!!settings?.dailyPause && moreTrackingWithPause && (
+          <>
+            {t("workTime")}: {msToTime(trackingDuration - settings.dailyPause * 60 * 1000)} h (
+            {timeFrameInPercent(trackingWithPause, settings?.dailyWork || 8)})<br />
+            {t("workTimeWithPause", { break: settings.dailyPause })}
+          </>
+        )}
       </p>
     </>
   );
