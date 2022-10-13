@@ -32,7 +32,7 @@ export const timeFrameInPercent = (timeframe: number, dailyWork: number): string
 export const getAverageWorkingTime = (trackings: Array<DailyTracking> = []): number => {
   let allWorkTimes = 0;
   trackings.forEach((tracking) => {
-    allWorkTimes = allWorkTimes + tracking.duration;
+    allWorkTimes = allWorkTimes + (tracking.end - tracking.start);
   });
   return Math.round(allWorkTimes / trackings.length);
 };

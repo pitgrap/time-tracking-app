@@ -15,8 +15,8 @@ export const generateCSV = (
         new Date(tracking.day).toLocaleDateString(language),
         new Date(tracking.start).toLocaleTimeString(language),
         new Date(tracking.end).toLocaleTimeString(language),
-        msToTime(tracking.duration),
-        timeFrameInPercent(tracking.duration, dailyWork),
+        msToTime(tracking.end - tracking.start),
+        timeFrameInPercent(tracking.end - tracking.start, dailyWork),
       ]);
     });
   }

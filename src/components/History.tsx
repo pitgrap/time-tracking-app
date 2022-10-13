@@ -5,7 +5,7 @@ import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
 import { generateCSV } from "../utils/CSV";
 import { useCloseOnEsc } from "../utils/UI";
-import { getAllTrackings } from "../utils/LocalStorage";
+import { getAllTrackings } from "../utils/TrackingStorage";
 import { getAverageWorkingTime, hoursToMs, msToTime, timeFrameInPercent } from "../utils/Time";
 import { DailyTracking } from "../models/DailyTracking";
 import close from "../assets/close.svg";
@@ -27,7 +27,7 @@ export const History: React.FC = () => {
     csvData = generateCSV(allTrackings, settings?.dailyWork || 8, i18n.language);
 
     allTrackings.forEach((tracking) => {
-      overWork = overWork + tracking.duration;
+      overWork = overWork + (tracking.end - tracking.start);
     });
     overWork = overWork - allTrackings.length * hoursToMs(settings?.dailyWork || 8);
   }
@@ -73,8 +73,8 @@ export const History: React.FC = () => {
                           <td>{new Date(tracking.start).toLocaleTimeString(i18n.language)}</td>
                           <td>{new Date(tracking.end).toLocaleTimeString(i18n.language)}</td>
                           <td>
-                            {msToTime(tracking.duration)} h (
-                            {timeFrameInPercent(tracking.duration, settings?.dailyWork || 8)})
+                            {msToTime(tracking.end - tracking.start)} h (
+                            {timeFrameInPercent(tracking.end - tracking.start, settings?.dailyWork || 8)})
                           </td>
                         </tr>
                       );
