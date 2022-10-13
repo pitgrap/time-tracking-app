@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
-import { Settings } from "../models/Settings";
-import { deleteAllTrackings, resetTodayLocalStorage } from "../utils/LocalStorage";
+import { deleteAllTrackings, resetTodayLocalStorage } from "../utils/TrackingStorage";
 import { showNotification, useCloseOnEsc } from "../utils/UI";
 import { availableLanguages } from "../utils/Translations";
+import { Settings } from "../models/Settings";
 import close from "../assets/close.svg";
 import success from "../assets/success.svg";
 import "./SettingsDialog.css";
@@ -15,19 +15,30 @@ export const SettingsDialog: React.FC = () => {
   const { settings, updateSettings } = useSettingsContext();
 
   const [deleteActionShow, setDeleteActionShow] = useState(false);
-  const [updateActionShow, setUpdateActionShow] = useState(false);
+  const [updateDailyWorkShow, setUpdateDailyWorkShow] = useState(false);
+  const [updatePauseShow, setUpdatePauseShow] = useState(false);
   const [updateLanguageShow, setUpdateLanguageShow] = useState(false);
   const [resetActionShow, setResetActionShow] = useState(false);
 
-  const changeSettings = (event: React.FormEvent<HTMLInputElement>) => {
+  const changeDailyWork = (event: React.FormEvent<HTMLInputElement>) => {
     const newDailyWork = parseInt(event.currentTarget.value);
-    setUpdateActionShow(false);
-    if (newDailyWork && updateSettings) {
-      const newSettings: Settings = {
-        dailyWork: newDailyWork,
-      };
+    setUpdateDailyWorkShow(false);
+    if (newDailyWork && settings && updateSettings) {
+      const newSettings: Settings = settings;
+      newSettings.dailyWork = newDailyWork;
       updateSettings(newSettings);
-      showNotification(setUpdateActionShow);
+      showNotification(setUpdateDailyWorkShow);
+    }
+  };
+
+  const changeDailyPause = (event: React.FormEvent<HTMLInputElement>) => {
+    const newDailyPause = parseInt(event.currentTarget.value);
+    setUpdatePauseShow(false);
+    if (newDailyPause >= 0 && settings && updateSettings) {
+      const newSettings = settings;
+      newSettings.dailyPause = newDailyPause;
+      updateSettings(newSettings);
+      showNotification(setUpdatePauseShow);
     }
   };
 
@@ -72,10 +83,31 @@ export const SettingsDialog: React.FC = () => {
                 className="action__input"
                 type="number"
                 defaultValue={settings?.dailyWork}
-                onChange={changeSettings}
+                onChange={changeDailyWork}
               />
               <span className="action__result">
-                {updateActionShow && (
+                {updateDailyWorkShow && (
+                  <span className="action__success">
+                    <img src={success} alt={t("success")} />
+                  </span>
+                )}
+              </span>
+            </div>
+
+            <div className="action">
+              <label className="action__label" htmlFor="dailyPause">
+                {t("pauseMinutes")}
+              </label>
+              <br />
+              <input
+                id="dailyPause"
+                className="action__input"
+                type="number"
+                defaultValue={settings?.dailyPause}
+                onChange={changeDailyPause}
+              />
+              <span className="action__result">
+                {updatePauseShow && (
                   <span className="action__success">
                     <img src={success} alt={t("success")} />
                   </span>
@@ -114,6 +146,8 @@ export const SettingsDialog: React.FC = () => {
             <hr className="action__splitter" />
 
             <div className="action">
+              <label className="action__label">{t("timeTracking")}</label>
+              <br />
               <button className="action__button" onClick={resetToday}>
                 {t("resetToday")}
               </button>
@@ -129,6 +163,8 @@ export const SettingsDialog: React.FC = () => {
             <hr className="action__splitter" />
 
             <div className="action">
+              <label className="action__label">{t("history")}</label>
+              <br />
               <button className="action__button" onClick={clearHistory}>
                 {t("deleteHistory")}
               </button>
