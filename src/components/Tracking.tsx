@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSettingsContext } from "../contexts/SettingsContext";
 import { DailyTracking } from "../models/DailyTracking";
-import { getTodayStorageKey, useLocalStorage } from "../utils/LocalStorage";
+import { useTrackingStorage } from "../utils/TrackingStorage";
 import { msToTime, timeFrameInPercent } from "../utils/Time";
 
 export const Tracking: React.FC = () => {
@@ -21,10 +21,9 @@ export const Tracking: React.FC = () => {
     day: new Date(),
     start: now.getTime(),
     end: now.getTime(),
-    duration: 1000,
   };
 
-  const [tracking] = useLocalStorage(getTodayStorageKey(), initTracking);
+  const [tracking] = useTrackingStorage(initTracking);
   // reset today
   if (localStorage.getItem("resetToday") === "true") {
     tracking.start = now.getTime();
@@ -38,8 +37,11 @@ export const Tracking: React.FC = () => {
   // update tracking
   if (tracking.end !== now.getTime()) {
     tracking.end = now.getTime();
-    tracking.duration = tracking.end - tracking.start;
   }
+
+  const trackingDuration = tracking.end - tracking.start;
+  const trackingWithPause = trackingDuration - (settings?.dailyPause || 0) * 60 * 1000;
+  const moreTrackingWithPause = !!settings?.dailyPause && trackingDuration > (settings?.dailyPause || 0) * 60 * 1000;
 
   return (
     <>
@@ -53,8 +55,20 @@ export const Tracking: React.FC = () => {
         {t("end")}: <time className="app-time">{new Date(tracking.end).toLocaleTimeString(i18n.language)}</time>
       </p>
       <p>
-        {t("workTime")}: {msToTime(tracking.duration)} h (
-        {timeFrameInPercent(tracking.duration, settings?.dailyWork || 8)})
+        {!moreTrackingWithPause && (
+          <>
+            {t("workTime")}: {msToTime(trackingDuration)} h (
+            {timeFrameInPercent(trackingDuration, settings?.dailyWork || 8)})
+          </>
+        )}
+
+        {!!settings?.dailyPause && moreTrackingWithPause && (
+          <>
+            {t("workTime")}: {msToTime(trackingDuration - settings.dailyPause * 60 * 1000)} h (
+            {timeFrameInPercent(trackingWithPause, settings?.dailyWork || 8)})<br />
+            {t("workTimeWithPause", { break: settings.dailyPause })}
+          </>
+        )}
       </p>
     </>
   );

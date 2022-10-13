@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import { DailyTracking } from "../models/DailyTracking";
-import { Settings } from "../models/Settings";
 
-export const storageKeyPrefix = "tracking_";
+const storageKeyPrefix = "tracking_";
 
-export const getTodayStorageKey = () => {
-  const date = new Date();
-  const day = ("0" + date.getDate()).slice(-2);
-  const month = ("0" + (date.getMonth() + 1)).slice(-2);
-  const year = date.getFullYear();
-
-  return `${storageKeyPrefix}${year}-${month}-${day}`;
-};
-
-export const useLocalStorage = (storageKey: string, fallbackState: DailyTracking | Settings) => {
+// custom hook
+export const useTrackingStorage = (fallbackState: DailyTracking) => {
+  const storageKey = getTodayStorageKey();
   const storedValue = localStorage.getItem(storageKey);
   const existingValue = storedValue ? JSON.parse(storedValue) : undefined;
 
@@ -21,9 +13,18 @@ export const useLocalStorage = (storageKey: string, fallbackState: DailyTracking
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(value));
-  }, [value, value.day, value.start, value.end, value.dailyWork, storageKey]);
+  }, [value, value.day, value.start, value.end, storageKey]);
 
   return [value, setValue];
+};
+
+const getTodayStorageKey = () => {
+  const date = new Date();
+  const day = ("0" + date.getDate()).slice(-2);
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear();
+
+  return `${storageKeyPrefix}${year}-${month}-${day}`;
 };
 
 export const resetTodayLocalStorage = () => {

@@ -15,7 +15,7 @@
 }
 
 .action {
-  margin-right: -50px;
+  margin: 10px -50px 10px 0;
 }
 
 .action__button {
@@ -48,7 +48,7 @@
 
 .action__splitter {
   width: 60%;
-  margin: 30px auto 20px auto;
+  margin: 20px auto;
   border: none;
   height: 1px;
   background-color: #ccc;
