@@ -1,6 +1,6 @@
 {
-  "name": "time-tracking-app",
-  "version": "0.7.0",
+  "name": "@pitgrap/time-tracking-app",
+  "version": "0.8.0",
   "homepage": "https://pitgrap.github.io/time-tracking-app/",
   "license": "MIT",
   "private": true,
@@ -16,29 +16,29 @@
     "node": "18"
   },
   "dependencies": {
-    "i18next": "^21.10.0",
-    "i18next-browser-languagedetector": "^6.1.8",
+    "i18next": "^22.4.10",
+    "i18next-browser-languagedetector": "^7.0.1",
     "react": "^18.2.0",
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
-    "react-i18next": "^11.18.6"
+    "react-i18next": "^12.1.5"
   },
   "devDependencies": {
-    "@types/node": "^18.11.11",
-    "@types/react": "^18.0.26",
+    "@types/node": "^18.14.1",
+    "@types/react": "^18.0.28",
     "@types/react-csv": "^1.1.3",
-    "@types/react-dom": "^18.0.9",
-    "@typescript-eslint/eslint-plugin": "^5.45.1",
-    "@typescript-eslint/parser": "^5.45.1",
-    "@vitejs/plugin-react": "^2.2.0",
-    "eslint": "^8.29.0",
-    "eslint-config-prettier": "^8.5.0",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.11",
-    "gh-pages": "^4.0.0",
-    "prettier": "^2.8.0",
-    "typescript": "^4.9.3",
-    "vite": "^3.2.5"
+    "eslint-plugin-react": "^7.32.2",
+    "gh-pages": "^5.0.0",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.4"
   },
   "browserslist": [
     "last 1 chrome version",

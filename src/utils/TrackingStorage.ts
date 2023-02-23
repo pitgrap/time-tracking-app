@@ -50,14 +50,17 @@ export const getAllTrackings = (withoutToday = true): Array<DailyTracking> => {
     }
   }
 
-  trackingKeys.sort().forEach((key) => {
-    const storedTracking = localStorage.getItem(key);
-    const existingTracking = storedTracking ? JSON.parse(storedTracking) : undefined;
+  trackingKeys
+    .sort()
+    .reverse()
+    .forEach((key) => {
+      const storedTracking = localStorage.getItem(key);
+      const existingTracking = storedTracking ? JSON.parse(storedTracking) : undefined;
 
-    if (existingTracking && !(withoutToday && today === new Date(existingTracking.day).toLocaleDateString())) {
-      allTrackings.push(existingTracking);
-    }
-  });
+      if (existingTracking && !(withoutToday && today === new Date(existingTracking.day).toLocaleDateString())) {
+        allTrackings.push(existingTracking);
+      }
+    });
 
   return allTrackings;
 };

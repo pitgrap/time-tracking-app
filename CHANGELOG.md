@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0
+
+- Change order of history. Show the latest entries first.
+- Move download history button to top to avoid scrolling with many entries.
+- Updated all dependencies to the latest major version.
+- Prefix package with "@pitgrap"
+- Update GitHub Actions
+
 ## 0.7.0
 
 - Added new setting "daily automatic break". It will be subtracted from the daily work. The default is "0".

@@ -62,6 +62,16 @@ export const History: React.FC = () => {
                 <p>
                   {t("overtime")}: <b>{msToTime(overWork)} h</b>
                 </p>
+                <p>
+                  <CSVLink
+                    className="history__download"
+                    data={csvData}
+                    filename={"time-tracking-history.csv"}
+                    separator={";"}
+                  >
+                    <button>Download (.csv)</button>
+                  </CSVLink>
+                </p>
                 <table className="history__table">
                   <thead>
                     <tr>
@@ -92,15 +102,7 @@ export const History: React.FC = () => {
                   </tbody>
                 </table>
                 <p>
-                  {allTrackings.length} {allTrackings.length === 1 ? t("entry") : t("entries")} {t("found")}.<br />
-                  <CSVLink
-                    className="history__download"
-                    data={csvData}
-                    filename={"time-tracking-history.csv"}
-                    separator={";"}
-                  >
-                    <button>Download (.csv)</button>
-                  </CSVLink>
+                  {allTrackings.length} {allTrackings.length === 1 ? t("entry") : t("entries")} {t("found")}
                 </p>
               </>
             )}
