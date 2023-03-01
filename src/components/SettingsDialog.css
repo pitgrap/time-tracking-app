@@ -53,3 +53,11 @@
   height: 1px;
   background-color: #ccc;
 }
+
+.react-time-picker {
+  margin-right: 50px;
+  padding-bottom: 5px;
+}
+.react-time-picker__wrapper {
+  border-radius: 5px;
+}

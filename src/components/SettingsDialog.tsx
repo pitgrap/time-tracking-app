@@ -2,23 +2,28 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
-import { deleteAllTrackings, resetTodayLocalStorage } from "../utils/TrackingStorage";
+import { deleteAllTrackings, resetTodayLocalStorage, useCustomStartDate } from "../utils/TrackingStorage";
 import { showNotification, useCloseOnEsc } from "../utils/UI";
 import { availableLanguages } from "../utils/Translations";
 import { Settings } from "../models/Settings";
 import close from "../assets/close.svg";
 import success from "../assets/success.svg";
 import "./SettingsDialog.css";
+import TimePicker from "react-time-picker";
+import { transformTimeToDate } from "../utils/Time";
+import "react-time-picker/dist/TimePicker.css";
 
 export const SettingsDialog: React.FC = () => {
   const { showSettings, toggleSettings } = useAppContext();
   const { settings, updateSettings } = useSettingsContext();
+  const [customStartTime, setCustomStartTime] = useState(new Date());
 
   const [deleteActionShow, setDeleteActionShow] = useState(false);
   const [updateDailyWorkShow, setUpdateDailyWorkShow] = useState(false);
   const [updatePauseShow, setUpdatePauseShow] = useState(false);
   const [updateLanguageShow, setUpdateLanguageShow] = useState(false);
   const [resetActionShow, setResetActionShow] = useState(false);
+  const [customStartTimeShow, setCustomStartTimeShow] = useState(false);
 
   const changeDailyWork = (event: React.FormEvent<HTMLInputElement>) => {
     const newDailyWork = parseInt(event.currentTarget.value);
@@ -50,6 +55,11 @@ export const SettingsDialog: React.FC = () => {
   const resetToday = () => {
     resetTodayLocalStorage();
     showNotification(setResetActionShow);
+  };
+
+  const useCustomStartTime = (customStartTime: number) => {
+    useCustomStartDate(customStartTime);
+    showNotification(setCustomStartTimeShow);
   };
 
   const { t, i18n } = useTranslation();
@@ -153,6 +163,35 @@ export const SettingsDialog: React.FC = () => {
               </button>
               <span className="action__result">
                 {resetActionShow && (
+                  <span className="action__success">
+                    <img src={success} alt={t("success")} />
+                  </span>
+                )}
+              </span>
+            </div>
+
+            <hr className="action__splitter" />
+
+            <div className="action">
+              <label className="action__label">{t("setStartTime")}</label>
+              <br />
+              <TimePicker
+                onChange={(time) => setCustomStartTime(transformTimeToDate(time.toString(), customStartTime))}
+                value={customStartTime}
+                disableClock
+                clearIcon={null}
+              />
+              <br />
+              <button
+                className="action__button"
+                onClick={() => {
+                  useCustomStartTime(customStartTime.getTime());
+                }}
+              >
+                {t("confirmStartTime")}
+              </button>
+              <span className="action__result">
+                {customStartTimeShow && (
                   <span className="action__success">
                     <img src={success} alt={t("success")} />
                   </span>

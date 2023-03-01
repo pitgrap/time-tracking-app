@@ -31,6 +31,10 @@ export const resetTodayLocalStorage = () => {
   localStorage.setItem("resetToday", "true");
 };
 
+export const useCustomStartDate = (customStartTime: number) => {
+  localStorage.setItem("customStart", customStartTime.toString());
+};
+
 export const deleteAllTrackings = () => {
   for (const key in localStorage) {
     if (key.indexOf(storageKeyPrefix) === 0) {

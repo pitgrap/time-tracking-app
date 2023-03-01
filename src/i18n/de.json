@@ -23,6 +23,8 @@
     "found": "gefunden",
     "averageWorkTime": "Durchschnittliche Arbeitszeit",
     "overtime": "Überstunden",
-    "resetToday": "Heute zurücksetzen"
+    "resetToday": "Heute zurücksetzen",
+    "setStartTime": "Startzeit korrigieren",
+    "confirmStartTime": "Startzeit übernehmen"
   }
 }
