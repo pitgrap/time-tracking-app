@@ -12,7 +12,7 @@
     "deploy": "pnpm build && gh-pages -d dist"
   },
   "engines": {
-    "pnpm": "7",
+    "pnpm": "8",
     "node": "18"
   },
   "dependencies": {
