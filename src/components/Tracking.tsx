@@ -38,6 +38,11 @@ export const Tracking: React.FC = () => {
   if (tracking.end !== now.getTime()) {
     tracking.end = now.getTime();
   }
+  // update by custom input
+  if (localStorage.getItem("customStart")) {
+    tracking.start = parseInt(localStorage.getItem("customStart") || "");
+    localStorage.removeItem("customStart");
+  }
 
   const trackingDuration = tracking.end - tracking.start;
   const trackingWithPause = trackingDuration - (settings?.dailyPause || 0) * 60 * 1000;

@@ -23,6 +23,8 @@
     "found": "found",
     "averageWorkTime": "Average working time",
     "overtime": "Overtime",
-    "resetToday": "Reset today"
+    "resetToday": "Reset today",
+    "setStartTime": "Correct start time",
+    "confirmStartTime": "Confirm start time"
   }
 }

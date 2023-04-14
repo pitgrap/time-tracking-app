@@ -36,3 +36,13 @@ export const getAverageWorkingTime = (trackings: Array<DailyTracking> = [], dail
   });
   return Math.round(allWorkTimes / trackings.length);
 };
+
+export const transformTimeToDate = (timeString: string, wantedDate: Date): Date => {
+  const splitTimeString = timeString.split(":");
+  const [hours, minutes, seconds] = splitTimeString.map(Number);
+  const date = wantedDate;
+  date.setHours(hours || 0);
+  date.setMinutes(minutes || 0);
+  date.setSeconds(seconds || 0);
+  return date;
+};
