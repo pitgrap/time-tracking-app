@@ -1,12 +1,19 @@
 # Changelog
 
+## 0.9.0
+
+- Added the possibility to correct the starting time
+- Update to pnpm version 8
+- Updated all dependencies to the latest major version.
+
+
 ## 0.8.0
 
 - Change order of history. Show the latest entries first.
 - Move download history button to top to avoid scrolling with many entries.
 - Updated all dependencies to the latest major version.
 - Prefix package with "@pitgrap"
-- Update GitHub Actions
+- Updated GitHub Actions
 
 ## 0.7.0
 
