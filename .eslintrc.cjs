@@ -25,6 +25,6 @@ module.exports = {
     "**.js",
   ],
   rules: {
-    "prettier/prettier": "warn"
+    "prettier/prettier": ["error", {"trailingComma": "es5"}],
   }
 };
