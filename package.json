@@ -17,13 +17,13 @@
     "node": "20"
   },
   "dependencies": {
-    "i18next": "^22.5.1",
-    "i18next-browser-languagedetector": "^7.2.1",
+    "i18next": "^23.16.8",
+    "i18next-browser-languagedetector": "^8.0.0",
     "react": "^18.3.1",
     "react-csv": "^2.2.2",
     "react-dom": "^18.3.1",
-    "react-i18next": "^12.3.1",
-    "react-time-picker": "^6.6.0"
+    "react-i18next": "^15.1.1",
+    "react-time-picker": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.9.1",
