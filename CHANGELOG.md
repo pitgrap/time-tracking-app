@@ -1,11 +1,17 @@
 # Changelog
 
+## 0.10.0
+
+- Updated to pnpm version 9
+- Updated node to v20
+- Updated all dependencies to the latest major version.
+- Updated GitHub Actions
+
 ## 0.9.0
 
 - Added the possibility to correct the starting time
-- Update to pnpm version 8
+- Updated to pnpm version 8
 - Updated all dependencies to the latest major version.
-
 
 ## 0.8.0
 
