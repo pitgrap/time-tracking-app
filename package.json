@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "deploy": "pnpm build && gh-pages -d dist"
   },
   "engines": {
