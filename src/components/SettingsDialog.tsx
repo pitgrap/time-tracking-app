@@ -176,7 +176,7 @@ export const SettingsDialog: React.FC = () => {
               <label className="action__label">{t("setStartTime")}</label>
               <br />
               <TimePicker
-                onChange={(time) => setCustomStartTime(transformTimeToDate(time.toString(), customStartTime))}
+                onChange={(time) => time && setCustomStartTime(transformTimeToDate(time.toString(), customStartTime))}
                 value={customStartTime}
                 disableClock
                 clearIcon={null}

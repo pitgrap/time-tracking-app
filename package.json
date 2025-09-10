@@ -1,46 +1,43 @@
 {
   "name": "@pitgrap/time-tracking-app",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "homepage": "https://pitgrap.github.io/time-tracking-app/",
   "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
-    "lint": "eslint --fix \"src/**/*.+(ts|tsx)\"",
-    "lint:ci": "eslint \"src/**/*.+(ts|tsx)\"",
-    "deploy": "pnpm build && gh-pages -d dist"
+    "build": "tsc -b && vite build",
+    "deploy": "pnpm build && gh-pages -d dist",
+    "lint": "eslint --fix .",
+    "lint:ci": "eslint ."
   },
   "engines": {
-    "pnpm": "9",
-    "node": "20"
+    "pnpm": "10",
+    "node": "22 || 24"
   },
   "dependencies": {
-    "i18next": "^23.16.8",
-    "i18next-browser-languagedetector": "^8.0.0",
-    "react": "^18.3.1",
-    "react-csv": "^2.2.2",
-    "react-dom": "^18.3.1",
-    "react-i18next": "^15.1.1",
-    "react-time-picker": "^7.0.0"
+    "i18next": "^25.5.2",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-i18next": "^15.7.3",
+    "react-time-picker": "^8.0.2"
   },
   "devDependencies": {
-    "@types/node": "^22.9.1",
-    "@types/react": "^18.3.12",
-    "@types/react-csv": "^1.1.10",
-    "@types/react-dom": "^18.3.1",
-    "@typescript-eslint/eslint-plugin": "^8.15.0",
-    "@typescript-eslint/parser": "^8.15.0",
-    "@vitejs/plugin-react": "^4.3.3",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.37.2",
-    "gh-pages": "^6.2.0",
-    "prettier": "^3.3.3",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.12"
+    "@eslint/js": "^9.35.0",
+    "@types/node": "^22.18.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "gh-pages": "^6.3.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.43.0",
+    "vite": "^7.1.5"
   },
   "browserslist": [
     "last 1 chrome version",
