@@ -6,7 +6,7 @@ export const generateCSV = (
   allTrackings: Array<DailyTracking>,
   dailyWork = 8,
   dailyPause = 0,
-  language = "en"
+  language = "en",
 ): Array<Array<string>> => {
   const csvData = [
     [

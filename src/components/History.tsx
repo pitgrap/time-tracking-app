@@ -63,10 +63,7 @@ export const History: React.FC = () => {
                   {t("overtime")}: <b>{msToTime(overWork)} h</b>
                 </p>
                 <p>
-                  <ExportCSV
-                    data={csvData}
-                    fileName={"time-tracking-history.csv"}
-                  />
+                  <ExportCSV data={csvData} fileName={"time-tracking-history.csv"} />
                 </p>
                 <table className="history__table">
                   <thead>
@@ -88,7 +85,7 @@ export const History: React.FC = () => {
                             {msToTime(tracking.end - tracking.start - dailyPauseInMs)} h (
                             {timeFrameInPercent(
                               tracking.end - tracking.start - dailyPauseInMs,
-                              settings?.dailyWork || 8
+                              settings?.dailyWork || 8,
                             )}
                             )
                           </td>
