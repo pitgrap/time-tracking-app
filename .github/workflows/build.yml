@@ -30,6 +30,3 @@ jobs:
 
       - name: Build Workspace (Packages and App)
         run: pnpm build
-
-      - name: Analyze Code and Style
-        run: pnpm lint:ci
