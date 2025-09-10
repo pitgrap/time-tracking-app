@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.11.0
+
+- Updated to pnpm version 10
+- Updated node to v22
+- Updated all dependencies to the latest major version.
+- Updated GitHub Actions
+
 ## 0.10.0
 
 - Updated to pnpm version 9
