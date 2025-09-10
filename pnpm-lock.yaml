@@ -17,9 +17,6 @@ importers:
       react:
         specifier: ^19.1.1
         version: 19.1.1
-      react-csv:
-        specifier: ^2.2.2
-        version: 2.2.2
       react-dom:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
@@ -36,9 +33,6 @@ importers:
       '@types/react':
         specifier: ^19.1.12
         version: 19.1.12
-      '@types/react-csv':
-        specifier: ^1.1.10
-        version: 1.1.10
       '@types/react-dom':
         specifier: ^19.1.9
         version: 19.1.9(@types/react@19.1.12)
@@ -454,9 +448,6 @@ packages:
   '@types/node@22.18.1':
     resolution: {integrity: sha512-rzSDyhn4cYznVG+PCzGe1lwuMYJrcBS1fc3JqSa2PvtABwWo+dZ1ij5OVok3tqfpEBCBoaR4d7upFJk73HRJDw==}
 
-  '@types/react-csv@1.1.10':
-    resolution: {integrity: sha512-PESAyASL7Nfi/IyBR3ufd8qZkyoS+7jOylKmJxRZUZLFASLo4NZaRsJ8rNP8pCcbIziADyWBbLPD1nPddhsL4g==}
-
   '@types/react-dom@19.1.9':
     resolution: {integrity: sha512-qXRuZaOsAdXKFyOhRBg6Lqqc0yay13vN7KrIg4L7N4aaHN68ma9OK3NE1BoDFgFOTfM7zg+3/8+2n8rLUH3OKQ==}
     peerDependencies:
@@ -755,9 +746,6 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
-
-  react-csv@2.2.2:
-    resolution: {integrity: sha512-RG5hOcZKZFigIGE8LxIEV/OgS1vigFQT4EkaHeKgyuCbUAu9Nbd/1RYq++bJcJJ9VOqO/n9TZRADsXNDR4VEpw==}
 
   react-dom@19.1.1:
     resolution: {integrity: sha512-Dlq/5LAZgF0Gaz6yiqZCf6VCcZs1ghAJyrsu84Q/GT0gV+mCxbfmKNoGRKBYMJ8IEdGPqu49YWXD02GCknEDkw==}
@@ -1239,10 +1227,6 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/react-csv@1.1.10':
-    dependencies:
-      '@types/react': 19.1.12
-
   '@types/react-dom@19.1.9(@types/react@19.1.12)':
     dependencies:
       '@types/react': 19.1.12
@@ -1532,8 +1516,6 @@ snapshots:
       react-dom: 19.1.1(react@19.1.1)
     optionalDependencies:
       '@types/react': 19.1.12
-
-  react-csv@2.2.2: {}
 
   react-dom@19.1.1(react@19.1.1):
     dependencies:

@@ -1,5 +1,4 @@
 import React from "react";
-import { CSVLink } from "react-csv";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
@@ -8,6 +7,7 @@ import { useCloseOnEsc } from "../utils/UI";
 import { getAllTrackings } from "../utils/TrackingStorage";
 import { getAverageWorkingTime, hoursToMs, msToTime, timeFrameInPercent } from "../utils/Time";
 import { DailyTracking } from "../models/DailyTracking";
+import { ExportCSV } from "./ExportCSV";
 import close from "../assets/close.svg";
 import "./History.css";
 
@@ -63,14 +63,10 @@ export const History: React.FC = () => {
                   {t("overtime")}: <b>{msToTime(overWork)} h</b>
                 </p>
                 <p>
-                  <CSVLink
-                    className="history__download"
+                  <ExportCSV
                     data={csvData}
-                    filename={"time-tracking-history.csv"}
-                    separator={";"}
-                  >
-                    <button>Download (.csv)</button>
-                  </CSVLink>
+                    fileName={"time-tracking-history.csv"}
+                  />
                 </p>
                 <table className="history__table">
                   <thead>

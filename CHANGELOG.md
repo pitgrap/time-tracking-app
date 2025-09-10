@@ -6,6 +6,7 @@
 - Updated node to v22
 - Updated all dependencies to the latest major version.
 - Updated GitHub Actions
+- Remove react-csv and replace with own component for CSV export
 
 ## 0.10.0
 
