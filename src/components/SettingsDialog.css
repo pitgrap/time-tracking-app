@@ -54,7 +54,7 @@
   background-color: #ccc;
 }
 
-.action_weekdays {
+.action__weekdays {
   text-align: left;
   margin-left: -50px;
   display: inline-block;
