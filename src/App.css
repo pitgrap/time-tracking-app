@@ -1,3 +1,10 @@
+.tracking-warning {
+  color: #ffe066;
+}
+
+.tracking-over {
+  color: #ff5c57;
+}
 .app {
   background-color: #282c34;
   min-height: 100vh;

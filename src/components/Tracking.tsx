@@ -48,6 +48,18 @@ export const Tracking: React.FC = () => {
   const trackingWithPause = trackingDuration - (settings?.dailyPause || 0) * 60 * 1000;
   const moreTrackingWithPause = !!settings?.dailyPause && trackingDuration > (settings?.dailyPause || 0) * 60 * 1000;
 
+  // Helper to get color class based on percent
+  const getTrackingClass = (percent: number) => {
+    if (percent >= 100) return "tracking-over";
+    if (percent >= 90) return "tracking-warning";
+    return "";
+  };
+
+  const percent = (trackingDuration / ((settings?.dailyWork || 8) * 60 * 60 * 1000)) * 100;
+  const percentWithPause =
+    ((trackingDuration - (settings?.dailyPause || 0) * 60 * 1000) / ((settings?.dailyWork || 8) * 60 * 60 * 1000)) *
+    100;
+
   return (
     <>
       <h2>
@@ -61,18 +73,17 @@ export const Tracking: React.FC = () => {
       </p>
       <p>
         {!moreTrackingWithPause && (
-          <>
+          <span className={`app-time ${getTrackingClass(percent)}`}>
             {t("workTime")}: {msToTime(trackingDuration)} h (
             {timeFrameInPercent(trackingDuration, settings?.dailyWork || 8)})
-          </>
+          </span>
         )}
-
         {!!settings?.dailyPause && moreTrackingWithPause && (
-          <>
+          <span className={`app-time ${getTrackingClass(percentWithPause)}`}>
             {t("workTime")}: {msToTime(trackingDuration - settings.dailyPause * 60 * 1000)} h (
             {timeFrameInPercent(trackingWithPause, settings?.dailyWork || 8)})<br />
             {t("workTimeWithPause", { break: settings.dailyPause })}
-          </>
+          </span>
         )}
       </p>
     </>
