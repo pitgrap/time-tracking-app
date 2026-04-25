@@ -29,6 +29,9 @@ const MainContent: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  // Version and release link
+  const version = "0.13.0";
+  const releaseUrl = "https://github.com/pitgrap/time-tracking-app/releases/tag/v0.13.0";
   return (
     <AppContextProvider>
       <SettingsContextProvider>
@@ -37,6 +40,9 @@ const App: React.FC = () => {
           <MainContent />
           <SettingsDialog />
           <History />
+          <a className="app-version" href={releaseUrl} target="_blank" rel="noopener noreferrer" title={`v${version}`}>
+            v{version}
+          </a>
         </div>
       </SettingsContextProvider>
     </AppContextProvider>
