@@ -29,6 +29,9 @@ const MainContent: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  // Version and release link (injected at build time)
+  // @ts-expect-error: __APP_VERSION__ is injected by Vite
+  const version = __APP_VERSION__;
   return (
     <AppContextProvider>
       <SettingsContextProvider>
@@ -37,6 +40,15 @@ const App: React.FC = () => {
           <MainContent />
           <SettingsDialog />
           <History />
+          <a
+            className="app-version"
+            href={`https://github.com/pitgrap/time-tracking-app/releases/tag/${version}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={`v${version}`}
+          >
+            v{version}
+          </a>
         </div>
       </SettingsContextProvider>
     </AppContextProvider>
