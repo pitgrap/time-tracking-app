@@ -24,14 +24,16 @@ export const SettingsContextProvider: React.FC<Props> = ({ children }) => {
   const defaultSettings: Settings = {
     dailyWork: 8,
     dailyPause: 0,
+    workingDays: [0, 1, 2, 3, 4, 5, 6], // All days checked by default
   };
 
   // the settings that will be given to the context
-  const [settings] = useState(existingSettings ?? defaultSettings);
+  const [settings, setSettings] = useState<Settings>(existingSettings ?? defaultSettings);
 
   // update the settings in localStorage
-  const updateSettings = () => {
-    localStorage.setItem(storageKey, JSON.stringify(settings));
+  const updateSettings = (newSettings: Settings) => {
+    setSettings(newSettings);
+    localStorage.setItem(storageKey, JSON.stringify(newSettings));
   };
 
   // the Provider gives access to the context to its children

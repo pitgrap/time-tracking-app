@@ -25,6 +25,16 @@
     "overtime": "Überstunden",
     "resetToday": "Heute zurücksetzen",
     "setStartTime": "Startzeit korrigieren",
-    "confirmStartTime": "Startzeit übernehmen"
+    "confirmStartTime": "Startzeit übernehmen",
+    "workingDays": "Arbeitstage",
+    "sunday": "Sonntag",
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "dayOffTitle": "Freier Tag",
+    "dayOffMessage": "Heute wird nicht getrackt. Dieser Tag ist in den Einstellungen nicht als Arbeitstag ausgewählt."
   }
 }

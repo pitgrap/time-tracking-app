@@ -24,6 +24,11 @@ export const SettingsDialog: React.FC = () => {
   const [updateLanguageShow, setUpdateLanguageShow] = useState(false);
   const [resetActionShow, setResetActionShow] = useState(false);
   const [customStartTimeShow, setCustomStartTimeShow] = useState(false);
+  const [workingDays, setWorkingDays] = useState<Set<number>>(new Set(settings?.workingDays ?? [0, 1, 2, 3, 4, 5, 6]));
+
+  const { t, i18n } = useTranslation();
+  const languageNames = new Intl.DisplayNames(i18n.language, { type: "language" });
+  const weekdays = [t("sunday"), t("monday"), t("tuesday"), t("wednesday"), t("thursday"), t("friday"), t("saturday")];
 
   const changeDailyWork = (event: React.FormEvent<HTMLInputElement>) => {
     const newDailyWork = parseInt(event.currentTarget.value);
@@ -62,11 +67,22 @@ export const SettingsDialog: React.FC = () => {
     showNotification(setCustomStartTimeShow);
   };
 
-  const { t, i18n } = useTranslation();
-  const languageNames = new Intl.DisplayNames(i18n.language, { type: "language" });
   const changeLanguage = (event: React.FormEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.currentTarget.value);
     showNotification(setUpdateLanguageShow);
+  };
+
+  const handleWorkingDayChange = (day: number) => {
+    const updated = new Set(workingDays);
+    if (workingDays.has(day)) {
+      updated.delete(day);
+    } else {
+      updated.add(day);
+    }
+    setWorkingDays(updated);
+    if (settings && updateSettings) {
+      updateSettings({ ...settings, workingDays: Array.from(updated).sort() });
+    }
   };
 
   // close on esc
@@ -214,6 +230,22 @@ export const SettingsDialog: React.FC = () => {
                   </span>
                 )}
               </span>
+            </div>
+
+            <div className="action">
+              <label className="action__label">{t("workingDays")}</label>
+              <div className="action__weekdays">
+                {weekdays.map((label, idx) => (
+                  <label key={idx} className="weekday-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={workingDays.has(idx)}
+                      onChange={() => handleWorkingDayChange(idx)}
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
             </div>
           </dialog>
         </>

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.0
+- Add setting to select working weekdays (checkboxes, default all checked)
+- Only track time on selected working days; show info message on days off
+- UI: weekday selection in settings, new DayOffInfo component
+- i18n: translations for weekdays and day off info
+- Refactor: context/model for workingDays
+- Validation: lint and build clean
+
 ## 0.11.0
 
 - Updated to pnpm version 10
