@@ -35,6 +35,6 @@
     "friday": "Friday",
     "saturday": "Saturday",
     "dayOffTitle": "Day Off",
-    "dayOffMessage": "No tracking today. This day is not selected as a working day in your settings."
+    "dayOffMessage": "No tracking today. \uD83D\uDE0E"
   }
 }

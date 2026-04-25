@@ -35,6 +35,6 @@
     "friday": "Freitag",
     "saturday": "Samstag",
     "dayOffTitle": "Freier Tag",
-    "dayOffMessage": "Heute wird nicht getrackt. Dieser Tag ist in den Einstellungen nicht als Arbeitstag ausgewählt."
+    "dayOffMessage": "Heute wird nicht getrackt. \uD83D\uDE0E"
   }
 }

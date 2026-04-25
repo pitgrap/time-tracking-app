@@ -13,23 +13,28 @@ import "./App.css";
 
 initTranslations();
 
-const App: React.FC = () => {
+const MainContent: React.FC = () => {
   const { t } = useTranslation();
   const { settings } = useSettingsContext();
   const today = new Date().getDay();
   const workingDays = settings?.workingDays ?? [0, 1, 2, 3, 4, 5, 6];
   const isWorkingDay = workingDays.includes(today);
+  return (
+    <main className="app-main">
+      <h1>{t("title")}</h1>
+      <img src={logo} className="app-logo" alt="logo" />
+      {isWorkingDay ? <Tracking /> : <DayOffInfo />}
+    </main>
+  );
+};
 
+const App: React.FC = () => {
   return (
     <AppContextProvider>
       <SettingsContextProvider>
         <div className="app">
           <Header />
-          <main className="app-main">
-            <h1>{t("title")}</h1>
-            <img src={logo} className="app-logo" alt="logo" />
-            {isWorkingDay ? <Tracking /> : <DayOffInfo />}
-          </main>
+          <MainContent />
           <SettingsDialog />
           <History />
         </div>

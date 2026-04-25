@@ -144,6 +144,32 @@ export const SettingsDialog: React.FC = () => {
             <hr className="action__splitter" />
 
             <div className="action">
+              <label className="action__label">{t("workingDays")}</label>
+              <br />
+              <div className="action__weekdays">
+                {(i18n.language === "de"
+                  ? [1, 2, 3, 4, 5, 6, 0] // Monday to Sunday for German
+                  : [0, 1, 2, 3, 4, 5, 6]
+                ) // Sunday to Saturday for others
+                  .map((idx) => (
+                    <>
+                      <label key={idx} className="weekday-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={workingDays.has(idx)}
+                          onChange={() => handleWorkingDayChange(idx)}
+                        />
+                        {weekdays[idx]}
+                      </label>
+                      <br />
+                    </>
+                  ))}
+              </div>
+            </div>
+
+            <hr className="action__splitter" />
+
+            <div className="action">
               <label className="action__label" htmlFor="language">
                 {t("language")}
               </label>
@@ -230,22 +256,6 @@ export const SettingsDialog: React.FC = () => {
                   </span>
                 )}
               </span>
-            </div>
-
-            <div className="action">
-              <label className="action__label">{t("workingDays")}</label>
-              <div className="action__weekdays">
-                {weekdays.map((label, idx) => (
-                  <label key={idx} className="weekday-checkbox">
-                    <input
-                      type="checkbox"
-                      checked={workingDays.has(idx)}
-                      onChange={() => handleWorkingDayChange(idx)}
-                    />
-                    {label}
-                  </label>
-                ))}
-              </div>
             </div>
           </dialog>
         </>
