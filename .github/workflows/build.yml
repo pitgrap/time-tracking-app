@@ -32,4 +32,4 @@ jobs:
         run: pnpm build
 
       - name: Analyze Code and Style
-        run: pnpm lint:ci
+        run: pnpm lint

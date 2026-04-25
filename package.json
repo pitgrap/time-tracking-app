@@ -9,12 +9,11 @@
     "start": "vite",
     "build": "tsc -b && vite build",
     "deploy": "pnpm build && gh-pages -d dist",
-    "lint": "eslint --fix .",
-    "lint:ci": "eslint ."
+    "lint": "eslint ."
   },
   "engines": {
     "pnpm": "10",
-    "node": "22 || 24"
+    "node": "24"
   },
   "dependencies": {
     "@pitgrap/time-tracking-app": "link:",
