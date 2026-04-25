@@ -1,5 +1,10 @@
 # Changelog
 
+# 0.13.1
+
+- Feature: Show release version in app
+- Updated all dependencies to the latest major version.
+
 # 0.13.0
 
 - Feature: Added setting to select working weekdays
