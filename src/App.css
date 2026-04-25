@@ -3,19 +3,19 @@
   position: fixed;
   right: 16px;
   bottom: 12px;
-  color: #ffe066;
-  background: rgba(40, 44, 52, 0.85);
+  color: #fff;
+  background-color: #282c34;
   padding: 4px 12px;
   border-radius: 16px 0 0 16px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   text-decoration: none;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   transition: background 0.2s, color 0.2s;
 }
 .app-version:hover {
   background: #ffe066;
   color: #282c34;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 .tracking-warning {
   color: #ffe066;
