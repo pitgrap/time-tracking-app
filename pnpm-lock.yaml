@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@pitgrap/time-tracking-app':
-        specifier: 'link:'
-        version: 'link:'
       i18next:
         specifier: ^25.10.10
         version: 25.10.10(typescript@5.9.3)

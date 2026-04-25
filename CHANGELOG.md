@@ -1,5 +1,17 @@
 # Changelog
 
+# 0.13.0
+
+- Feature: Added setting to select working weekdays
+- Updated node to v24
+- Updated all dependencies to the latest minor version.
+
+## 0.12.0
+
+- Updated GitHub Actions
+- Added Dependabot to update GitHub Actions
+- Updated all dependencies to the latest minor version.
+
 ## 0.11.0
 
 - Updated to pnpm version 10
