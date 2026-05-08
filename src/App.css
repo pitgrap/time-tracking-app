@@ -47,7 +47,41 @@
 }
 
 .app-overview {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 0.95em;
+}
+
+.app-overview__label {
+  color: rgba(255, 255, 255, 0.55);
   text-align: right;
+  white-space: nowrap;
+  font-size: 0.85em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.app-overview__value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.app-overview__divider {
+  grid-column: 1 / -1;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 4px 0;
+}
+
+.app-overview__value--muted {
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
 }
 
 .app-logo {
