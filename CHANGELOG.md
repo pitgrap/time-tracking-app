@@ -1,5 +1,13 @@
 # Changelog
 
+# 0.13.2
+
+- Feature: Show projected end time (start + daily work + break) in tracking view
+- Feature: Rename live current time label from "End" to "Now" for clarity
+- Improvement: Redesigned time overview block with a card-style CSS grid layout
+- Improvement: Extracted repeated time calculations into shared constants
+- Updated dependencies (`eslint` 10.2.1 → 10.3.0)
+
 # 0.13.1
 
 - Feature: Show release version in app

@@ -15,6 +15,7 @@
     "noHistory": "Kein Verlauf vorhanden.",
     "date": "Datum",
     "start": "Beginn",
+    "now": "Jetzt",
     "end": "Ende",
     "workTime": "Arbeitszeit",
     "workTimeWithPause": "und {{break}} min Pause",

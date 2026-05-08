@@ -15,6 +15,7 @@
     "noHistory": "No history available.",
     "date": "Date",
     "start": "Start",
+    "now": "Now",
     "end": "End",
     "workTime": "Working time",
     "workTimeWithPause": "and {{break}} min break",
