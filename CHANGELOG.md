@@ -1,5 +1,13 @@
 # Changelog
 
+# 0.14.0
+
+- Updated pnpm to v11, use `packageManager` field for version pin
+- Updated node engines range to `24 || 26`
+- Simplified CI workflow, pnpm version now resolved from `packageManager` field
+- Updated `pnpm-workspace.yaml` to use `allowBuilds` instead of `onlyBuiltDependencies`
+- Updated dependencies (`i18next`, `react`, `react-dom`, `react-i18next`, `react-time-picker`, and dev dependencies), fixes CVEs
+
 # 0.13.2
 
 - Feature: Show projected end time (start + daily work + break) in tracking view
