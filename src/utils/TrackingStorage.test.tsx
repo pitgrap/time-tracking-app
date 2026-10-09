@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { advanceTracking, useTrackingStorage } from "./TrackingStorage";
+import { advanceTracking, deleteAllTrackings, useTrackingStorage } from "./TrackingStorage";
 import { DailyTracking } from "../models/DailyTracking";
 
 const TestComponent: React.FC<{ fallback: DailyTracking }> = ({ fallback }) => {
@@ -44,6 +44,24 @@ describe("useTrackingStorage", () => {
     expect(keys).toHaveLength(1);
     const stored = JSON.parse(localStorage.getItem(keys[0])!);
     expect(stored.end).toBe(1001);
+  });
+});
+
+describe("deleteAllTrackings", () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it("removes every tracking_* key without leaving any behind, and leaves other keys alone", () => {
+    for (let i = 1; i <= 10; i++) {
+      localStorage.setItem(`tracking_2026-01-${String(i).padStart(2, "0")}`, "{}");
+    }
+    localStorage.setItem("configuration", "{}");
+
+    deleteAllTrackings();
+
+    const remaining = Object.keys(localStorage);
+    expect(remaining).toEqual(["configuration"]);
   });
 });
 

@@ -53,11 +53,15 @@ const getTodayStorageKey = () => {
 };
 
 export const deleteAllTrackings = () => {
+  const keysToDelete: Array<string> = [];
+
   for (const key in localStorage) {
     if (key.indexOf(storageKeyPrefix) === 0) {
-      localStorage.removeItem(key);
+      keysToDelete.push(key);
     }
   }
+
+  keysToDelete.forEach((key) => localStorage.removeItem(key));
 };
 
 export const getAllTrackings = (withoutToday = true): Array<DailyTracking> => {
