@@ -39,6 +39,11 @@ describe("getAverageWorkingTime", () => {
     const trackings = [{ day: new Date(), start: 0, end: hoursToMs(8) }];
     expect(getAverageWorkingTime(trackings, hoursToMs(1))).toBe(hoursToMs(7));
   });
+
+  it("returns 0 instead of NaN for an empty list", () => {
+    expect(getAverageWorkingTime([], 0)).toBe(0);
+    expect(getAverageWorkingTime()).toBe(0);
+  });
 });
 
 describe("transformTimeToDate", () => {
