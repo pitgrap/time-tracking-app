@@ -71,31 +71,6 @@ describe("advanceTracking", () => {
     expect(advanceTracking(previous, now)).toBe(previous);
   });
 
-  it("applies a pending reset-today signal and clears it", () => {
-    localStorage.setItem("resetToday", "true");
-    const previous: DailyTracking = { day: new Date(2026, 0, 5), start: 1000, end: 5000 };
-    const now = new Date(2026, 0, 5, 10, 0, 0);
-
-    const next = advanceTracking(previous, now);
-
-    expect(next.start).toBe(now.getTime());
-    expect(next.end).toBe(now.getTime());
-    expect(localStorage.getItem("resetToday")).toBeNull();
-  });
-
-  it("applies a pending custom-start signal and clears it", () => {
-    const customStart = new Date(2026, 0, 5, 7, 30, 0).getTime();
-    localStorage.setItem("customStart", customStart.toString());
-    const previous: DailyTracking = { day: new Date(2026, 0, 5), start: 1000, end: 5000 };
-    const now = new Date(2026, 0, 5, 10, 0, 0);
-
-    const next = advanceTracking(previous, now);
-
-    expect(next.start).toBe(customStart);
-    expect(next.end).toBe(now.getTime());
-    expect(localStorage.getItem("customStart")).toBeNull();
-  });
-
   it("starts a fresh tracking record once the day has rolled over", () => {
     const previous: DailyTracking = { day: new Date(2026, 0, 5, 23, 59, 59), start: 1000, end: 2000 };
     const now = new Date(2026, 0, 6, 0, 0, 1);

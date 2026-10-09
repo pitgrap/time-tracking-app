@@ -24,24 +24,13 @@ export const useTrackingStorage = (
 };
 
 /**
- * Computes the next tracking record for a tick of the clock, applying any
- * pending reset/custom-start signal and handling the day rolling over while
- * the tab stays open. Returns `previous` unchanged when nothing needs to
- * update, so React can bail out of re-rendering.
+ * Computes the next tracking record for a tick of the clock: handles the day
+ * rolling over while the tab stays open, otherwise bumps `end` to now.
+ * Returns `previous` unchanged when nothing needs to update, so React can
+ * bail out of re-rendering.
  */
 export const advanceTracking = (previous: DailyTracking, now: Date): DailyTracking => {
   const nowMs = now.getTime();
-
-  if (localStorage.getItem("resetToday") === "true") {
-    localStorage.removeItem("resetToday");
-    return { ...previous, start: nowMs, end: nowMs };
-  }
-
-  const customStart = localStorage.getItem("customStart");
-  if (customStart) {
-    localStorage.removeItem("customStart");
-    return { ...previous, start: parseInt(customStart, 10), end: nowMs };
-  }
 
   if (new Date(previous.day).toLocaleDateString() !== now.toLocaleDateString()) {
     return { day: now, start: nowMs, end: nowMs };
@@ -61,14 +50,6 @@ const getTodayStorageKey = () => {
   const year = date.getFullYear();
 
   return `${storageKeyPrefix}${year}-${month}-${day}`;
-};
-
-export const resetTodayLocalStorage = () => {
-  localStorage.setItem("resetToday", "true");
-};
-
-export const setCustomStartDate = (customStartTime: number) => {
-  localStorage.setItem("customStart", customStartTime.toString());
 };
 
 export const deleteAllTrackings = () => {

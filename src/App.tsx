@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { AppContextProvider } from "./contexts/AppContext";
 import { SettingsContextProvider, useSettingsContext } from "./contexts/SettingsContext";
+import { TrackingContextProvider } from "./contexts/TrackingContext";
 import { initTranslations } from "./utils/Translations";
 import { Header } from "./components/Header";
 import { Tracking } from "./components/Tracking";
@@ -35,21 +36,23 @@ const App: React.FC = () => {
   return (
     <AppContextProvider>
       <SettingsContextProvider>
-        <div className="app">
-          <Header />
-          <MainContent />
-          <SettingsDialog />
-          <History />
-          <a
-            className="app-version"
-            href={`https://github.com/pitgrap/time-tracking-app/releases/tag/${version}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={`v${version}`}
-          >
-            v{version}
-          </a>
-        </div>
+        <TrackingContextProvider>
+          <div className="app">
+            <Header />
+            <MainContent />
+            <SettingsDialog />
+            <History />
+            <a
+              className="app-version"
+              href={`https://github.com/pitgrap/time-tracking-app/releases/tag/${version}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`v${version}`}
+            >
+              v{version}
+            </a>
+          </div>
+        </TrackingContextProvider>
       </SettingsContextProvider>
     </AppContextProvider>
   );
