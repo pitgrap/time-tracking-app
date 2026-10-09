@@ -154,8 +154,8 @@ export const SettingsDialog: React.FC = () => {
                   : [0, 1, 2, 3, 4, 5, 6]
                 ) // Sunday to Saturday for others
                   .map((idx) => (
-                    <>
-                      <label key={idx} className="weekday-checkbox">
+                    <React.Fragment key={idx}>
+                      <label className="weekday-checkbox">
                         <input
                           type="checkbox"
                           checked={workingDays.has(idx)}
@@ -164,7 +164,7 @@ export const SettingsDialog: React.FC = () => {
                         {weekdays[idx]}
                       </label>
                       <br />
-                    </>
+                    </React.Fragment>
                   ))}
               </div>
             </div>
