@@ -7,9 +7,21 @@ import { TrackingContextProvider } from "../contexts/TrackingContext";
 import { initTranslations } from "../utils/Translations";
 
 const OpenSettingsButton: React.FC = () => {
-  const { toggleSettings } = useAppContext();
-  return <button onClick={toggleSettings}>open</button>;
+  const { openSettings } = useAppContext();
+  return <button onClick={openSettings}>open</button>;
 };
+
+const renderSettings = () =>
+  render(
+    <AppContextProvider>
+      <SettingsContextProvider>
+        <TrackingContextProvider>
+          <OpenSettingsButton />
+          <SettingsDialog />
+        </TrackingContextProvider>
+      </SettingsContextProvider>
+    </AppContextProvider>,
+  );
 
 const DailyWorkDisplay: React.FC = () => {
   const { settings } = useSettingsContext();
@@ -25,24 +37,11 @@ describe("SettingsDialog", () => {
   it("renders the weekday checkboxes without a missing/duplicate key warning", () => {
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-    render(
-      <AppContextProvider>
-        <SettingsContextProvider>
-          <TrackingContextProvider>
-            <OpenSettingsButton />
-            <SettingsDialog />
-          </TrackingContextProvider>
-        </SettingsContextProvider>
-      </AppContextProvider>,
-    );
+    renderSettings();
 
     fireEvent.click(screen.getByText("open"));
 
-    // `hidden: true` is required here because the Settings dialog is a
-    // <dialog> that's never opened via showModal()/show() (see the native
-    // dialog semantics fix) - without the `open` attribute, its content is
-    // outside the accessibility tree even though it's visually displayed.
-    expect(screen.getAllByRole("checkbox", { hidden: true })).toHaveLength(7);
+    expect(screen.getAllByRole("checkbox")).toHaveLength(7);
 
     const keyWarnings = errorSpy.mock.calls.filter(
       ([message]) => typeof message === "string" && message.includes("unique") && message.includes("key"),
@@ -73,5 +72,53 @@ describe("SettingsDialog", () => {
 
     expect(screen.getByTestId("dailyWorkValue")).toHaveTextContent("6");
     expect(JSON.parse(localStorage.getItem("configuration")!).dailyWork).toBe(6);
+  });
+
+  it("opens via the native showModal() API", () => {
+    renderSettings();
+    fireEvent.click(screen.getByText("open"));
+
+    const dialog = document.querySelector("dialog")!;
+    expect(dialog.open).toBe(true);
+  });
+
+  it("closes when the backdrop (not the dialog content) is clicked", () => {
+    renderSettings();
+    fireEvent.click(screen.getByText("open"));
+
+    const dialog = document.querySelector("dialog")!;
+    fireEvent.click(dialog);
+
+    expect(document.querySelector("dialog")).not.toBeInTheDocument();
+  });
+
+  it("does not close when clicking inside the dialog content", () => {
+    renderSettings();
+    fireEvent.click(screen.getByText("open"));
+
+    fireEvent.click(screen.getByText("Settings"));
+
+    expect(document.querySelector("dialog")).toBeInTheDocument();
+  });
+
+  it("closes via the close (X) button", () => {
+    renderSettings();
+    fireEvent.click(screen.getByText("open"));
+
+    fireEvent.click(screen.getByTitle("Close"));
+
+    expect(document.querySelector("dialog")).not.toBeInTheDocument();
+  });
+
+  it("stays in sync when the dialog is closed natively (e.g. via ESC)", () => {
+    renderSettings();
+    fireEvent.click(screen.getByText("open"));
+
+    const dialog = document.querySelector("dialog")!;
+    // Simulates what a real browser does on ESC for a showModal() dialog -
+    // fires the native "close" event, which our effect listens for.
+    fireEvent(dialog, new Event("close"));
+
+    expect(document.querySelector("dialog")).not.toBeInTheDocument();
   });
 });

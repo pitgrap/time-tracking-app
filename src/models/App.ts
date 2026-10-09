@@ -2,9 +2,11 @@ import { ReactNode } from "react";
 
 export interface AppContext {
   showSettings: boolean;
-  toggleSettings?: () => void;
+  openSettings?: () => void;
+  closeSettings?: () => void;
   showHistory: boolean;
-  toggleHistory?: () => void;
+  openHistory?: () => void;
+  closeHistory?: () => void;
 }
 
 export interface Props {
