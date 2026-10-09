@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Props } from "../models/App";
 import { DEFAULT_SETTINGS, Settings, SettingsContext } from "../models/Settings";
+import { safeJsonParse } from "../utils/Json";
 
 // create context with no default
 const settingsContext = React.createContext<SettingsContext>({});
@@ -21,9 +22,7 @@ export const SettingsContextProvider: React.FC<Props> = ({ children }) => {
   // the settings that will be given to the context
   // lazy initializer: only reads/parses localStorage once, on mount
   const [settings, setSettings] = useState<Settings>(() => {
-    const storedSettings = localStorage.getItem(storageKey);
-    const existingSettings = storedSettings ? JSON.parse(storedSettings) : undefined;
-
+    const existingSettings = safeJsonParse<Settings>(localStorage.getItem(storageKey));
     return existingSettings ?? DEFAULT_SETTINGS;
   });
 

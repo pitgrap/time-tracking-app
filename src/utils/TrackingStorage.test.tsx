@@ -45,6 +45,19 @@ describe("useTrackingStorage", () => {
     const stored = JSON.parse(localStorage.getItem(keys[0])!);
     expect(stored.end).toBe(1001);
   });
+
+  it("falls back to the given fallback state instead of throwing on corrupted localStorage", () => {
+    const today = new Date();
+    const key = `tracking_${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(
+      today.getDate(),
+    ).padStart(2, "0")}`;
+    localStorage.setItem(key, "{not valid json");
+
+    const fallback: DailyTracking = { day: today, start: 42, end: 42 };
+    render(<TestComponent fallback={fallback} />);
+
+    expect(screen.getByTestId("end")).toHaveTextContent("42");
+  });
 });
 
 describe("deleteAllTrackings", () => {
