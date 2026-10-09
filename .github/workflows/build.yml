@@ -29,5 +29,8 @@ jobs:
       - name: Build Workspace (Packages and App)
         run: pnpm build
 
+      - name: Run tests
+        run: pnpm test
+
       - name: Analyze Code and Style
         run: pnpm lint
