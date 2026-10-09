@@ -6,6 +6,7 @@ import { generateCSV } from "../utils/CSV";
 import { getAllTrackings } from "../utils/TrackingStorage";
 import { getAverageWorkingTime, hoursToMs, msToTime, timeFrameInPercent } from "../utils/Time";
 import { DailyTracking } from "../models/DailyTracking";
+import { DEFAULT_SETTINGS } from "../models/Settings";
 import { ExportCSV } from "./ExportCSV";
 import close from "../assets/close.svg";
 import "./History.css";
@@ -16,21 +17,24 @@ export const History: React.FC = () => {
   const { showHistory, closeHistory } = useAppContext();
   const { settings } = useSettingsContext();
 
+  const dailyWork = settings?.dailyWork ?? DEFAULT_SETTINGS.dailyWork;
+  const dailyPause = settings?.dailyPause ?? DEFAULT_SETTINGS.dailyPause;
+
   let allTrackings: Array<DailyTracking> = [];
   let averageWorkTime = 0;
   let csvData: Array<Array<string | number>> = [];
   let overWork = 0;
-  const dailyPauseInMs = (settings?.dailyPause || 0) * 60 * 1000;
+  const dailyPauseInMs = dailyPause * 60 * 1000;
 
   if (showHistory) {
     allTrackings = getAllTrackings();
     averageWorkTime = getAverageWorkingTime(allTrackings, dailyPauseInMs);
-    csvData = generateCSV(allTrackings, settings?.dailyWork || 8, settings?.dailyPause || 0, i18n.language);
+    csvData = generateCSV(allTrackings, dailyWork, dailyPause, i18n.language);
 
     allTrackings.forEach((tracking) => {
       overWork = overWork + (tracking.end - tracking.start - dailyPauseInMs);
     });
-    overWork = overWork - allTrackings.length * hoursToMs(settings?.dailyWork || 8);
+    overWork = overWork - allTrackings.length * hoursToMs(dailyWork);
   }
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -66,12 +70,12 @@ export const History: React.FC = () => {
           {allTrackings.length > 0 && (
             <>
               <p>
-                {t("workTime")}: {msToTime(hoursToMs(settings?.dailyWork || 8))} h
-                {!!settings?.dailyPause && <> {t("workTimeWithPause", { break: settings?.dailyPause || 0 })}</>}
+                {t("workTime")}: {msToTime(hoursToMs(dailyWork))} h
+                {!!dailyPause && <> {t("workTimeWithPause", { break: dailyPause })}</>}
                 <br />
                 {t("averageWorkTime")}:{" "}
                 <b>
-                  {msToTime(averageWorkTime)} h ({timeFrameInPercent(averageWorkTime, settings?.dailyWork || 8)})
+                  {msToTime(averageWorkTime)} h ({timeFrameInPercent(averageWorkTime, dailyWork)})
                 </b>
               </p>
               <p>
@@ -98,8 +102,7 @@ export const History: React.FC = () => {
                         <td>{new Date(tracking.end).toLocaleTimeString(i18n.language)}</td>
                         <td>
                           {msToTime(tracking.end - tracking.start - dailyPauseInMs)} h (
-                          {timeFrameInPercent(tracking.end - tracking.start - dailyPauseInMs, settings?.dailyWork || 8)}
-                          )
+                          {timeFrameInPercent(tracking.end - tracking.start - dailyPauseInMs, dailyWork)})
                         </td>
                       </tr>
                     );

@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSettingsContext } from "../contexts/SettingsContext";
 import { useTrackingContext } from "../contexts/TrackingContext";
+import { DEFAULT_SETTINGS } from "../models/Settings";
 import { msToTime, timeFrameInPercent } from "../utils/Time";
 
 export const Tracking: React.FC = () => {
@@ -9,12 +10,14 @@ export const Tracking: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { tracking } = useTrackingContext();
 
-  const dailyWorkMs = (settings?.dailyWork || 8) * 60 * 60 * 1000;
-  const dailyPauseMs = (settings?.dailyPause || 0) * 60 * 1000;
+  const dailyWork = settings?.dailyWork ?? DEFAULT_SETTINGS.dailyWork;
+  const dailyPause = settings?.dailyPause ?? DEFAULT_SETTINGS.dailyPause;
+  const dailyWorkMs = dailyWork * 60 * 60 * 1000;
+  const dailyPauseMs = dailyPause * 60 * 1000;
 
   const trackingDuration = tracking.end - tracking.start;
   const trackingWithPause = trackingDuration - dailyPauseMs;
-  const moreTrackingWithPause = !!settings?.dailyPause && trackingDuration > dailyPauseMs;
+  const moreTrackingWithPause = !!dailyPause && trackingDuration > dailyPauseMs;
   const projectedEnd = tracking.start + dailyWorkMs + dailyPauseMs;
 
   // Helper to get color class based on percent
@@ -50,15 +53,14 @@ export const Tracking: React.FC = () => {
       <p>
         {!moreTrackingWithPause && (
           <span className={`app-time ${getTrackingClass(percent)}`}>
-            {t("workTime")}: {msToTime(trackingDuration)} h (
-            {timeFrameInPercent(trackingDuration, settings?.dailyWork || 8)})
+            {t("workTime")}: {msToTime(trackingDuration)} h ({timeFrameInPercent(trackingDuration, dailyWork)})
           </span>
         )}
-        {!!settings?.dailyPause && moreTrackingWithPause && (
+        {!!dailyPause && moreTrackingWithPause && (
           <span className={`app-time ${getTrackingClass(percentWithPause)}`}>
-            {t("workTime")}: {msToTime(trackingWithPause)} h (
-            {timeFrameInPercent(trackingWithPause, settings?.dailyWork || 8)})<br />
-            {t("workTimeWithPause", { break: settings.dailyPause })}
+            {t("workTime")}: {msToTime(trackingWithPause)} h ({timeFrameInPercent(trackingWithPause, dailyWork)})
+            <br />
+            {t("workTimeWithPause", { break: dailyPause })}
           </span>
         )}
       </p>

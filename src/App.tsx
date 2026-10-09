@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { AppContextProvider } from "./contexts/AppContext";
 import { SettingsContextProvider, useSettingsContext } from "./contexts/SettingsContext";
 import { TrackingContextProvider, useTrackingContext } from "./contexts/TrackingContext";
+import { DEFAULT_SETTINGS } from "./models/Settings";
 import { initTranslations } from "./utils/Translations";
 import { Header } from "./components/Header";
 import { Tracking } from "./components/Tracking";
@@ -22,7 +23,7 @@ const MainContent: React.FC = () => {
   // stays open, instead of only on the next unrelated re-render
   const { now } = useTrackingContext();
   const today = now.getDay();
-  const workingDays = settings?.workingDays ?? [0, 1, 2, 3, 4, 5, 6];
+  const workingDays = settings?.workingDays ?? DEFAULT_SETTINGS.workingDays;
   const isWorkingDay = workingDays.includes(today);
   return (
     <main className="app-main">

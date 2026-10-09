@@ -7,6 +7,13 @@ export interface Settings {
    */
   workingDays?: number[];
 }
+
+export const DEFAULT_SETTINGS: Required<Settings> = {
+  dailyWork: 8,
+  dailyPause: 0,
+  workingDays: [0, 1, 2, 3, 4, 5, 6], // All days checked by default
+};
+
 export interface SettingsContext {
   settings?: Settings;
   updateSettings?: (settings: Settings) => void;
