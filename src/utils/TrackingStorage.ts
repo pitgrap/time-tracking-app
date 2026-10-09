@@ -34,7 +34,7 @@ export const resetTodayLocalStorage = () => {
   localStorage.setItem("resetToday", "true");
 };
 
-export const useCustomStartDate = (customStartTime: number) => {
+export const setCustomStartDate = (customStartTime: number) => {
   localStorage.setItem("customStart", customStartTime.toString());
 };
 

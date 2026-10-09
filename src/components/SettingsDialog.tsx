@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
-import { deleteAllTrackings, resetTodayLocalStorage, useCustomStartDate } from "../utils/TrackingStorage";
+import { deleteAllTrackings, resetTodayLocalStorage, setCustomStartDate } from "../utils/TrackingStorage";
 import { showNotification, useCloseOnEsc } from "../utils/UI";
 import { availableLanguages } from "../utils/Translations";
 import { Settings } from "../models/Settings";
@@ -62,8 +62,8 @@ export const SettingsDialog: React.FC = () => {
     showNotification(setResetActionShow);
   };
 
-  const useCustomStartTime = (customStartTime: number) => {
-    useCustomStartDate(customStartTime);
+  const confirmCustomStartTime = (customStartTime: number) => {
+    setCustomStartDate(customStartTime);
     showNotification(setCustomStartTimeShow);
   };
 
@@ -227,7 +227,7 @@ export const SettingsDialog: React.FC = () => {
               <button
                 className="action__button"
                 onClick={() => {
-                  useCustomStartTime(customStartTime.getTime());
+                  confirmCustomStartTime(customStartTime.getTime());
                 }}
               >
                 {t("confirmStartTime")}
