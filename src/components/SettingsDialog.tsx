@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
-import { deleteAllTrackings, resetTodayLocalStorage, setCustomStartDate } from "../utils/TrackingStorage";
+import { useTrackingContext } from "../contexts/TrackingContext";
+import { deleteAllTrackings } from "../utils/TrackingStorage";
 import { showNotification, useCloseOnEsc } from "../utils/UI";
 import { availableLanguages } from "../utils/Translations";
 import { Settings } from "../models/Settings";
@@ -16,6 +17,7 @@ import "react-time-picker/dist/TimePicker.css";
 export const SettingsDialog: React.FC = () => {
   const { showSettings, toggleSettings } = useAppContext();
   const { settings, updateSettings } = useSettingsContext();
+  const { resetToday: resetTrackingToday, setCustomStart } = useTrackingContext();
   const [customStartTime, setCustomStartTime] = useState(new Date());
 
   const [deleteActionShow, setDeleteActionShow] = useState(false);
@@ -58,12 +60,12 @@ export const SettingsDialog: React.FC = () => {
   };
 
   const resetToday = () => {
-    resetTodayLocalStorage();
+    resetTrackingToday();
     showNotification(setResetActionShow);
   };
 
   const confirmCustomStartTime = (customStartTime: number) => {
-    setCustomStartDate(customStartTime);
+    setCustomStart(customStartTime);
     showNotification(setCustomStartTimeShow);
   };
 

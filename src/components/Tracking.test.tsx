@@ -3,8 +3,23 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Tracking } from "./Tracking";
 import { SettingsContextProvider } from "../contexts/SettingsContext";
+import { TrackingContextProvider, useTrackingContext } from "../contexts/TrackingContext";
 import { initTranslations } from "../utils/Translations";
-import { resetTodayLocalStorage } from "../utils/TrackingStorage";
+
+const ResetButton: React.FC = () => {
+  const { resetToday } = useTrackingContext();
+  return <button onClick={resetToday}>reset</button>;
+};
+
+const renderTracking = () =>
+  render(
+    <SettingsContextProvider>
+      <TrackingContextProvider>
+        <Tracking />
+        <ResetButton />
+      </TrackingContextProvider>
+    </SettingsContextProvider>,
+  );
 
 beforeEach(() => {
   initTranslations();
@@ -16,32 +31,11 @@ afterEach(() => {
 });
 
 describe("Tracking", () => {
-  it("clears its ticking interval on unmount", () => {
-    vi.useFakeTimers();
-    const clearIntervalSpy = vi.spyOn(global, "clearInterval");
-
-    const { unmount } = render(
-      <SettingsContextProvider>
-        <Tracking />
-      </SettingsContextProvider>,
-    );
-
-    unmount();
-
-    expect(clearIntervalSpy).toHaveBeenCalled();
-
-    clearIntervalSpy.mockRestore();
-  });
-
   it("ticks the displayed work time forward and persists it to localStorage", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date(2026, 0, 5, 9, 0, 0));
 
-    render(
-      <SettingsContextProvider>
-        <Tracking />
-      </SettingsContextProvider>,
-    );
+    renderTracking();
 
     expect(screen.getByText("Working time: 00:00 h (0%)")).toBeInTheDocument();
 
@@ -57,32 +51,21 @@ describe("Tracking", () => {
     expect(stored.end - stored.start).toBe(65 * 1000);
   });
 
-  it("applies a pending reset-today signal on the next tick without losing the running clock", async () => {
+  it("reflects a reset triggered elsewhere (e.g. the Settings dialog) immediately", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date(2026, 0, 5, 9, 0, 0));
 
-    render(
-      <SettingsContextProvider>
-        <Tracking />
-      </SettingsContextProvider>,
-    );
+    renderTracking();
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(5 * 60 * 1000);
     });
     expect(screen.getByText("Working time: 00:05 h (1%)")).toBeInTheDocument();
 
-    resetTodayLocalStorage();
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(1000);
+    act(() => {
+      screen.getByText("reset").click();
     });
 
-    expect(screen.getByText("Working time: 00:00 h (0%)")).toBeInTheDocument();
-    expect(localStorage.getItem("resetToday")).toBeNull();
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(1000);
-    });
     expect(screen.getByText("Working time: 00:00 h (0%)")).toBeInTheDocument();
   });
 });

@@ -1,33 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSettingsContext } from "../contexts/SettingsContext";
-import { DailyTracking } from "../models/DailyTracking";
-import { advanceTracking, useTrackingStorage } from "../utils/TrackingStorage";
+import { useTrackingContext } from "../contexts/TrackingContext";
 import { msToTime, timeFrameInPercent } from "../utils/Time";
 
 export const Tracking: React.FC = () => {
   const { settings } = useSettingsContext();
   const { t, i18n } = useTranslation();
-
-  const timer = 1000; // 1 second
-  const [now, setDateState] = useState(new Date());
-
-  const initTracking: DailyTracking = {
-    day: now,
-    start: now.getTime(),
-    end: now.getTime(),
-  };
-
-  const [tracking, setTracking] = useTrackingStorage(initTracking);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const current = new Date();
-      setDateState(current);
-      setTracking((previous) => advanceTracking(previous, current));
-    }, timer);
-    return () => clearInterval(intervalId);
-  }, [setTracking]);
+  const { tracking } = useTrackingContext();
 
   const dailyWorkMs = (settings?.dailyWork || 8) * 60 * 60 * 1000;
   const dailyPauseMs = (settings?.dailyPause || 0) * 60 * 1000;
