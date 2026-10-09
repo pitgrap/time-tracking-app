@@ -1,5 +1,4 @@
 .app-settings {
-  display: block;
   width: 80%;
   max-width: 600px;
   min-height: 50%;
@@ -8,10 +7,15 @@
   border: none;
   text-align: center;
   border-radius: 10px;
-  z-index: 3;
   box-shadow: 10px 10px 50px #000;
   transform: translateY(-40%);
   padding: 16px 16px 36px 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app-settings::backdrop {
+  background: rgba(40 44 52 / 0.9);
 }
 
 .action {
