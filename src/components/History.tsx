@@ -58,9 +58,9 @@ export const History: React.FC = () => {
     <>
       {showHistory && (
         <dialog ref={dialogRef} className="app-history" onClick={handleBackdropClick}>
-          <span className="app__close" onClick={closeHistory}>
+          <button type="button" className="app__close" onClick={closeHistory}>
             <img src={close} alt={t("close")} title={t("close")} />
-          </span>
+          </button>
           <h2>{t("history")}</h2>
           {allTrackings.length === 0 && <p>{t("noHistory")}</p>}
           {allTrackings.length > 0 && (
