@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DailyTracking } from "../models/DailyTracking";
+import { safeJsonParse } from "./Json";
 
 const storageKeyPrefix = "tracking_";
 
@@ -11,8 +12,7 @@ export const useTrackingStorage = (
 
   // lazy initializer: only reads/parses localStorage once, on mount
   const [value, setValue] = useState(() => {
-    const storedValue = localStorage.getItem(storageKey);
-    const existingValue = storedValue ? JSON.parse(storedValue) : undefined;
+    const existingValue = safeJsonParse<DailyTracking>(localStorage.getItem(storageKey));
     return existingValue ?? fallbackState;
   });
 
@@ -79,8 +79,7 @@ export const getAllTrackings = (withoutToday = true): Array<DailyTracking> => {
     .sort()
     .reverse()
     .forEach((key) => {
-      const storedTracking = localStorage.getItem(key);
-      const existingTracking = storedTracking ? JSON.parse(storedTracking) : undefined;
+      const existingTracking = safeJsonParse<DailyTracking>(localStorage.getItem(key));
 
       if (existingTracking && !(withoutToday && today === new Date(existingTracking.day).toLocaleDateString())) {
         allTrackings.push(existingTracking);
