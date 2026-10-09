@@ -2,13 +2,18 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { SettingsDialog } from "./SettingsDialog";
 import { AppContextProvider, useAppContext } from "../contexts/AppContext";
-import { SettingsContextProvider } from "../contexts/SettingsContext";
+import { SettingsContextProvider, useSettingsContext } from "../contexts/SettingsContext";
 import { TrackingContextProvider } from "../contexts/TrackingContext";
 import { initTranslations } from "../utils/Translations";
 
 const OpenSettingsButton: React.FC = () => {
   const { toggleSettings } = useAppContext();
   return <button onClick={toggleSettings}>open</button>;
+};
+
+const DailyWorkDisplay: React.FC = () => {
+  const { settings } = useSettingsContext();
+  return <span data-testid="dailyWorkValue">{settings?.dailyWork}</span>;
 };
 
 beforeEach(() => {
@@ -45,5 +50,28 @@ describe("SettingsDialog", () => {
     expect(keyWarnings).toHaveLength(0);
 
     errorSpy.mockRestore();
+  });
+
+  it("propagates a daily-work-hours change to other SettingsContext consumers", () => {
+    const { container } = render(
+      <AppContextProvider>
+        <SettingsContextProvider>
+          <TrackingContextProvider>
+            <OpenSettingsButton />
+            <DailyWorkDisplay />
+            <SettingsDialog />
+          </TrackingContextProvider>
+        </SettingsContextProvider>
+      </AppContextProvider>,
+    );
+
+    fireEvent.click(screen.getByText("open"));
+    expect(screen.getByTestId("dailyWorkValue")).toHaveTextContent("8");
+
+    const input = container.querySelector<HTMLInputElement>("#dailyWork")!;
+    fireEvent.change(input, { target: { value: "6" } });
+
+    expect(screen.getByTestId("dailyWorkValue")).toHaveTextContent("6");
+    expect(JSON.parse(localStorage.getItem("configuration")!).dailyWork).toBe(6);
   });
 });

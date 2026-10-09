@@ -6,7 +6,6 @@ import { useTrackingContext } from "../contexts/TrackingContext";
 import { deleteAllTrackings } from "../utils/TrackingStorage";
 import { showNotification, useCloseOnEsc } from "../utils/UI";
 import { availableLanguages } from "../utils/Translations";
-import { Settings } from "../models/Settings";
 import close from "../assets/close.svg";
 import success from "../assets/success.svg";
 import "./SettingsDialog.css";
@@ -36,9 +35,7 @@ export const SettingsDialog: React.FC = () => {
     const newDailyWork = parseInt(event.currentTarget.value);
     setUpdateDailyWorkShow(false);
     if (newDailyWork && settings && updateSettings) {
-      const newSettings: Settings = settings;
-      newSettings.dailyWork = newDailyWork;
-      updateSettings(newSettings);
+      updateSettings({ ...settings, dailyWork: newDailyWork });
       showNotification(setUpdateDailyWorkShow);
     }
   };
@@ -47,9 +44,7 @@ export const SettingsDialog: React.FC = () => {
     const newDailyPause = parseInt(event.currentTarget.value);
     setUpdatePauseShow(false);
     if (newDailyPause >= 0 && settings && updateSettings) {
-      const newSettings = settings;
-      newSettings.dailyPause = newDailyPause;
-      updateSettings(newSettings);
+      updateSettings({ ...settings, dailyPause: newDailyPause });
       showNotification(setUpdatePauseShow);
     }
   };
