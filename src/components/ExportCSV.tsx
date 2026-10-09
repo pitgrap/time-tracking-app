@@ -1,4 +1,5 @@
 import React from "react";
+import { toCsvString } from "../utils/CSV";
 
 type ExportCSVProps = {
   data: Array<Array<string | number>>;
@@ -7,7 +8,7 @@ type ExportCSVProps = {
 
 export const ExportCSV: React.FC<ExportCSVProps> = ({ data, fileName = "download.csv" }) => {
   const downloadCSV = () => {
-    const csvString = data.map((row) => row.join(";")).join("\n");
+    const csvString = toCsvString(data);
 
     const blob = new Blob([csvString], { type: "text/csv" });
 

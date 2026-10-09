@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { generateCSV } from "./CSV";
+import { generateCSV, toCsvString } from "./CSV";
 import { initTranslations } from "./Translations";
 import { DailyTracking } from "../models/DailyTracking";
 
@@ -42,5 +42,32 @@ describe("generateCSV", () => {
   it("still emits a header row when there are no trackings", () => {
     const csv = generateCSV([], 8, 0, "en");
     expect(csv).toHaveLength(1);
+  });
+});
+
+describe("toCsvString", () => {
+  it("joins fields with the delimiter and rows with CRLF", () => {
+    expect(
+      toCsvString([
+        ["a", "b"],
+        [1, 2],
+      ]),
+    ).toBe("a;b\r\n1;2");
+  });
+
+  it("quotes and escapes a field containing the delimiter", () => {
+    expect(toCsvString([["a;b", "c"]])).toBe('"a;b";c');
+  });
+
+  it("quotes and doubles embedded quotes in a field", () => {
+    expect(toCsvString([['say "hi"']])).toBe('"say ""hi"""');
+  });
+
+  it("quotes a field containing a newline", () => {
+    expect(toCsvString([["line1\nline2"]])).toBe('"line1\nline2"');
+  });
+
+  it("leaves ordinary fields unquoted", () => {
+    expect(toCsvString([["plain", "42"]])).toBe("plain;42");
   });
 });
