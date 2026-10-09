@@ -13,7 +13,7 @@ export interface Settings {
 // localStorage yet (see SettingsContext's `?? DEFAULT_SETTINGS`), so an
 // in-place mutation anywhere (e.g. `.sort()`ing the array) would silently
 // corrupt the shared default for the rest of the session.
-export const DEFAULT_SETTINGS: Required<Settings> = Object.freeze({
+export const DEFAULT_SETTINGS: Readonly<Required<Settings>> = Object.freeze({
   dailyWork: 8,
   dailyPause: 0,
   workingDays: Object.freeze([0, 1, 2, 3, 4, 5, 6]) as number[],
