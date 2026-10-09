@@ -10,6 +10,8 @@
   box-shadow: 10px 10px 50px #000;
   transform: translateY(-40%);
   padding: 16px 16px 36px 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .app-settings::backdrop {
