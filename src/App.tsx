@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { AppContextProvider } from "./contexts/AppContext";
 import { SettingsContextProvider, useSettingsContext } from "./contexts/SettingsContext";
-import { TrackingContextProvider } from "./contexts/TrackingContext";
+import { TrackingContextProvider, useTrackingContext } from "./contexts/TrackingContext";
 import { initTranslations } from "./utils/Translations";
 import { Header } from "./components/Header";
 import { Tracking } from "./components/Tracking";
@@ -17,7 +17,11 @@ initTranslations();
 const MainContent: React.FC = () => {
   const { t } = useTranslation();
   const { settings } = useSettingsContext();
-  const today = new Date().getDay();
+  // reuses TrackingContext's ticking clock so a day change (e.g. crossing
+  // from a working day into a day off overnight) is picked up while the tab
+  // stays open, instead of only on the next unrelated re-render
+  const { now } = useTrackingContext();
+  const today = now.getDay();
   const workingDays = settings?.workingDays ?? [0, 1, 2, 3, 4, 5, 6];
   const isWorkingDay = workingDays.includes(today);
   return (
