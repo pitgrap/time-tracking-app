@@ -9,7 +9,9 @@
     "start": "vite",
     "build": "tsc -b && vite build",
     "deploy": "pnpm build && gh-pages -d dist",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "engines": {
     "pnpm": "11",
@@ -25,18 +27,24 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
+    "@vitest/ui": "^5.0.3",
     "eslint": "^10.8.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",
     "gh-pages": "^6.3.0",
+    "jsdom": "^30.1.2",
     "prettier": "^3.9.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.67.0",
-    "vite": "^8.2.1"
+    "vite": "^8.2.1",
+    "vitest": "^5.0.3"
   },
   "browserslist": [
     "last 1 chrome version",
