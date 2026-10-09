@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Props } from "../models/App";
-import { Settings, SettingsContext } from "../models/Settings";
+import { DEFAULT_SETTINGS, Settings, SettingsContext } from "../models/Settings";
 
 // create context with no default
 const settingsContext = React.createContext<SettingsContext>({});
@@ -24,13 +24,7 @@ export const SettingsContextProvider: React.FC<Props> = ({ children }) => {
     const storedSettings = localStorage.getItem(storageKey);
     const existingSettings = storedSettings ? JSON.parse(storedSettings) : undefined;
 
-    const defaultSettings: Settings = {
-      dailyWork: 8,
-      dailyPause: 0,
-      workingDays: [0, 1, 2, 3, 4, 5, 6], // All days checked by default
-    };
-
-    return existingSettings ?? defaultSettings;
+    return existingSettings ?? DEFAULT_SETTINGS;
   });
 
   // update the settings in localStorage

@@ -6,6 +6,7 @@ import { useTrackingContext } from "../contexts/TrackingContext";
 import { deleteAllTrackings } from "../utils/TrackingStorage";
 import { showNotification } from "../utils/UI";
 import { availableLanguages } from "../utils/Translations";
+import { DEFAULT_SETTINGS } from "../models/Settings";
 import close from "../assets/close.svg";
 import success from "../assets/success.svg";
 import "./SettingsDialog.css";
@@ -25,7 +26,9 @@ export const SettingsDialog: React.FC = () => {
   const [updateLanguageShow, setUpdateLanguageShow] = useState(false);
   const [resetActionShow, setResetActionShow] = useState(false);
   const [customStartTimeShow, setCustomStartTimeShow] = useState(false);
-  const [workingDays, setWorkingDays] = useState<Set<number>>(new Set(settings?.workingDays ?? [0, 1, 2, 3, 4, 5, 6]));
+  const [workingDays, setWorkingDays] = useState<Set<number>>(
+    new Set(settings?.workingDays ?? DEFAULT_SETTINGS.workingDays),
+  );
 
   const { t, i18n } = useTranslation();
   const languageNames = new Intl.DisplayNames(i18n.language, { type: "language" });
