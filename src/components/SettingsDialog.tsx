@@ -110,9 +110,9 @@ export const SettingsDialog: React.FC = () => {
     <>
       {showSettings && (
         <dialog ref={dialogRef} className="app-settings" onClick={handleBackdropClick}>
-          <span className="app__close" onClick={closeSettings}>
+          <button type="button" className="app__close" onClick={closeSettings}>
             <img src={close} alt={t("close")} title={t("close")} />
-          </span>
+          </button>
           <h2>{t("settings")}</h2>
 
           <div className="action">
