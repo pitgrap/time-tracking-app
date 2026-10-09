@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSettingsContext } from "../contexts/SettingsContext";
 import { DailyTracking } from "../models/DailyTracking";
-import { useTrackingStorage } from "../utils/TrackingStorage";
+import { advanceTracking, useTrackingStorage } from "../utils/TrackingStorage";
 import { msToTime, timeFrameInPercent } from "../utils/Time";
 
 export const Tracking: React.FC = () => {
@@ -11,39 +11,23 @@ export const Tracking: React.FC = () => {
 
   const timer = 1000; // 1 second
   const [now, setDateState] = useState(new Date());
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setDateState(new Date());
-    }, timer);
-    return () => clearInterval(intervalId);
-  }, []);
 
   const initTracking: DailyTracking = {
-    day: new Date(),
+    day: now,
     start: now.getTime(),
     end: now.getTime(),
   };
 
-  const [tracking] = useTrackingStorage(initTracking);
-  // reset today
-  if (localStorage.getItem("resetToday") === "true") {
-    tracking.start = now.getTime();
-    localStorage.removeItem("resetToday");
-  }
-  // crossed midnight
-  if (new Date(tracking.day).toLocaleDateString() !== new Date().toLocaleDateString()) {
-    tracking.day = new Date();
-    tracking.start = now.getTime();
-  }
-  // update tracking
-  if (tracking.end !== now.getTime()) {
-    tracking.end = now.getTime();
-  }
-  // update by custom input
-  if (localStorage.getItem("customStart")) {
-    tracking.start = parseInt(localStorage.getItem("customStart") || "");
-    localStorage.removeItem("customStart");
-  }
+  const [tracking, setTracking] = useTrackingStorage(initTracking);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const current = new Date();
+      setDateState(current);
+      setTracking((previous) => advanceTracking(previous, current));
+    }, timer);
+    return () => clearInterval(intervalId);
+  }, [setTracking]);
 
   const dailyWorkMs = (settings?.dailyWork || 8) * 60 * 60 * 1000;
   const dailyPauseMs = (settings?.dailyPause || 0) * 60 * 1000;
