@@ -2,6 +2,16 @@ import { t } from "i18next";
 import { DailyTracking } from "../models/DailyTracking";
 import { msToTime, timeFrameInPercent } from "./Time";
 
+const escapeCsvField = (field: string | number, delimiter: string): string => {
+  const value = String(field);
+  const needsQuoting = value.includes(delimiter) || value.includes('"') || /[\r\n]/.test(value);
+  return needsQuoting ? `"${value.replace(/"/g, '""')}"` : value;
+};
+
+export const toCsvString = (rows: Array<Array<string | number>>, delimiter = ";"): string => {
+  return rows.map((row) => row.map((field) => escapeCsvField(field, delimiter)).join(delimiter)).join("\r\n");
+};
+
 export const generateCSV = (
   allTrackings: Array<DailyTracking>,
   dailyWork = 8,
