@@ -6,10 +6,13 @@ const storageKeyPrefix = "tracking_";
 // custom hook
 export const useTrackingStorage = (fallbackState: DailyTracking) => {
   const storageKey = getTodayStorageKey();
-  const storedValue = localStorage.getItem(storageKey);
-  const existingValue = storedValue ? JSON.parse(storedValue) : undefined;
 
-  const [value, setValue] = useState(existingValue ?? fallbackState);
+  // lazy initializer: only reads/parses localStorage once, on mount
+  const [value, setValue] = useState(() => {
+    const storedValue = localStorage.getItem(storageKey);
+    const existingValue = storedValue ? JSON.parse(storedValue) : undefined;
+    return existingValue ?? fallbackState;
+  });
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(value));
