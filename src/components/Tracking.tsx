@@ -12,9 +12,10 @@ export const Tracking: React.FC = () => {
   const timer = 1000; // 1 second
   const [now, setDateState] = useState(new Date());
   useEffect(() => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       setDateState(new Date());
     }, timer);
+    return () => clearInterval(intervalId);
   }, []);
 
   const initTracking: DailyTracking = {
