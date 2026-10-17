@@ -1,5 +1,21 @@
 # Changelog
 
+# 0.14.1
+
+- Fixed: settings changes (daily work hours/pause) weren't reflected in the UI until a reload
+- Fixed: tracking's tick interval wasn't cleared on unmount
+- Fixed: tracking state was mutated directly instead of going through React state
+- Fixed: "Reset today"/custom start time could be lost if triggered while the day-off view was shown
+- Fixed: day-off/working-day detection could go stale in a long-lived tab (e.g. pinned as a start page)
+- Fixed: missing React key on the weekday checkboxes list
+- Fixed: `deleteAllTrackings` could skip entries by mutating storage mid-iteration
+- Fixed: average working time showed `NaN` for an empty history
+- Fixed: unguarded `JSON.parse` of corrupted localStorage could blank-screen the app; added a top-level error boundary as a safety net
+- Fixed: CSV export didn't escape fields containing the delimiter, quotes, or newlines
+- Improved: Settings/History dialogs now use native `<dialog>` semantics (focus trap, backdrop, ESC-to-close) and real `<button>` controls, for better accessibility
+- Added: `eslint-plugin-react-hooks` to catch hook-rule violations
+- Added: Vitest + React Testing Library test suite, run in CI
+
 # 0.14.0
 
 - Updated pnpm to v11, use `packageManager` field for version pin

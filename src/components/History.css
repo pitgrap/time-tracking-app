@@ -1,5 +1,4 @@
 .app-history {
-  display: block;
   width: 80%;
   max-width: 600px;
   min-height: 50%;
@@ -9,10 +8,14 @@
   border: none;
   text-align: center;
   border-radius: 10px;
-  z-index: 3;
   box-shadow: 10px 10px 50px #000;
   transform: translateY(-40%);
+  overflow-x: hidden;
   overflow-y: auto;
+}
+
+.app-history::backdrop {
+  background: rgba(40 44 52 / 0.9);
 }
 
 .history__table {

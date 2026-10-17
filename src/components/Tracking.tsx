@@ -1,55 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSettingsContext } from "../contexts/SettingsContext";
-import { DailyTracking } from "../models/DailyTracking";
-import { useTrackingStorage } from "../utils/TrackingStorage";
+import { useTrackingContext } from "../contexts/TrackingContext";
+import { DEFAULT_SETTINGS } from "../models/Settings";
 import { msToTime, timeFrameInPercent } from "../utils/Time";
 
 export const Tracking: React.FC = () => {
   const { settings } = useSettingsContext();
   const { t, i18n } = useTranslation();
+  const { tracking } = useTrackingContext();
 
-  const timer = 1000; // 1 second
-  const [now, setDateState] = useState(new Date());
-  useEffect(() => {
-    setInterval(() => {
-      setDateState(new Date());
-    }, timer);
-  }, []);
-
-  const initTracking: DailyTracking = {
-    day: new Date(),
-    start: now.getTime(),
-    end: now.getTime(),
-  };
-
-  const [tracking] = useTrackingStorage(initTracking);
-  // reset today
-  if (localStorage.getItem("resetToday") === "true") {
-    tracking.start = now.getTime();
-    localStorage.removeItem("resetToday");
-  }
-  // crossed midnight
-  if (new Date(tracking.day).toLocaleDateString() !== new Date().toLocaleDateString()) {
-    tracking.day = new Date();
-    tracking.start = now.getTime();
-  }
-  // update tracking
-  if (tracking.end !== now.getTime()) {
-    tracking.end = now.getTime();
-  }
-  // update by custom input
-  if (localStorage.getItem("customStart")) {
-    tracking.start = parseInt(localStorage.getItem("customStart") || "");
-    localStorage.removeItem("customStart");
-  }
-
-  const dailyWorkMs = (settings?.dailyWork || 8) * 60 * 60 * 1000;
-  const dailyPauseMs = (settings?.dailyPause || 0) * 60 * 1000;
+  const dailyWork = settings?.dailyWork ?? DEFAULT_SETTINGS.dailyWork;
+  const dailyPause = settings?.dailyPause ?? DEFAULT_SETTINGS.dailyPause;
+  const dailyWorkMs = dailyWork * 60 * 60 * 1000;
+  const dailyPauseMs = dailyPause * 60 * 1000;
 
   const trackingDuration = tracking.end - tracking.start;
   const trackingWithPause = trackingDuration - dailyPauseMs;
-  const moreTrackingWithPause = !!settings?.dailyPause && trackingDuration > dailyPauseMs;
+  const moreTrackingWithPause = !!dailyPause && trackingDuration > dailyPauseMs;
   const projectedEnd = tracking.start + dailyWorkMs + dailyPauseMs;
 
   // Helper to get color class based on percent
@@ -85,15 +53,14 @@ export const Tracking: React.FC = () => {
       <p>
         {!moreTrackingWithPause && (
           <span className={`app-time ${getTrackingClass(percent)}`}>
-            {t("workTime")}: {msToTime(trackingDuration)} h (
-            {timeFrameInPercent(trackingDuration, settings?.dailyWork || 8)})
+            {t("workTime")}: {msToTime(trackingDuration)} h ({timeFrameInPercent(trackingDuration, dailyWork)})
           </span>
         )}
-        {!!settings?.dailyPause && moreTrackingWithPause && (
+        {!!dailyPause && moreTrackingWithPause && (
           <span className={`app-time ${getTrackingClass(percentWithPause)}`}>
-            {t("workTime")}: {msToTime(trackingWithPause)} h (
-            {timeFrameInPercent(trackingWithPause, settings?.dailyWork || 8)})<br />
-            {t("workTimeWithPause", { break: settings.dailyPause })}
+            {t("workTime")}: {msToTime(trackingWithPause)} h ({timeFrameInPercent(trackingWithPause, dailyWork)})
+            <br />
+            {t("workTimeWithPause", { break: dailyPause })}
           </span>
         )}
       </p>

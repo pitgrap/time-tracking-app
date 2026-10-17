@@ -1,21 +1,46 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DailyTracking } from "../models/DailyTracking";
+import { safeJsonParse } from "./Json";
 
 const storageKeyPrefix = "tracking_";
 
 // custom hook
-export const useTrackingStorage = (fallbackState: DailyTracking) => {
+export const useTrackingStorage = (
+  fallbackState: DailyTracking,
+): [DailyTracking, Dispatch<SetStateAction<DailyTracking>>] => {
   const storageKey = getTodayStorageKey();
-  const storedValue = localStorage.getItem(storageKey);
-  const existingValue = storedValue ? JSON.parse(storedValue) : undefined;
 
-  const [value, setValue] = useState(existingValue ?? fallbackState);
+  // lazy initializer: only reads/parses localStorage once, on mount
+  const [value, setValue] = useState(() => {
+    const existingValue = safeJsonParse<DailyTracking>(localStorage.getItem(storageKey));
+    return existingValue ?? fallbackState;
+  });
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(value));
-  }, [value, value.day, value.start, value.end, storageKey]);
+  }, [value, storageKey]);
 
   return [value, setValue];
+};
+
+/**
+ * Computes the next tracking record for a tick of the clock: handles the day
+ * rolling over while the tab stays open, otherwise bumps `end` to now.
+ * Returns `previous` unchanged when nothing needs to update, so React can
+ * bail out of re-rendering.
+ */
+export const advanceTracking = (previous: DailyTracking, now: Date): DailyTracking => {
+  const nowMs = now.getTime();
+
+  if (new Date(previous.day).toLocaleDateString() !== now.toLocaleDateString()) {
+    return { day: now, start: nowMs, end: nowMs };
+  }
+
+  if (previous.end === nowMs) {
+    return previous;
+  }
+
+  return { ...previous, end: nowMs };
 };
 
 const getTodayStorageKey = () => {
@@ -27,20 +52,16 @@ const getTodayStorageKey = () => {
   return `${storageKeyPrefix}${year}-${month}-${day}`;
 };
 
-export const resetTodayLocalStorage = () => {
-  localStorage.setItem("resetToday", "true");
-};
-
-export const useCustomStartDate = (customStartTime: number) => {
-  localStorage.setItem("customStart", customStartTime.toString());
-};
-
 export const deleteAllTrackings = () => {
+  const keysToDelete: Array<string> = [];
+
   for (const key in localStorage) {
     if (key.indexOf(storageKeyPrefix) === 0) {
-      localStorage.removeItem(key);
+      keysToDelete.push(key);
     }
   }
+
+  keysToDelete.forEach((key) => localStorage.removeItem(key));
 };
 
 export const getAllTrackings = (withoutToday = true): Array<DailyTracking> => {
@@ -58,8 +79,7 @@ export const getAllTrackings = (withoutToday = true): Array<DailyTracking> => {
     .sort()
     .reverse()
     .forEach((key) => {
-      const storedTracking = localStorage.getItem(key);
-      const existingTracking = storedTracking ? JSON.parse(storedTracking) : undefined;
+      const existingTracking = safeJsonParse<DailyTracking>(localStorage.getItem(key));
 
       if (existingTracking && !(withoutToday && today === new Date(existingTracking.day).toLocaleDateString())) {
         allTrackings.push(existingTracking);
