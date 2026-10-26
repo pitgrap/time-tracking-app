@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
@@ -20,22 +20,34 @@ export const History: React.FC = () => {
   const dailyWork = settings?.dailyWork ?? DEFAULT_SETTINGS.dailyWork;
   const dailyPause = settings?.dailyPause ?? DEFAULT_SETTINGS.dailyPause;
 
-  let allTrackings: Array<DailyTracking> = [];
-  let averageWorkTime = 0;
-  let csvData: Array<Array<string | number>> = [];
-  let overWork = 0;
   const dailyPauseInMs = dailyPause * 60 * 1000;
 
-  if (showHistory) {
-    allTrackings = getAllTrackings();
-    averageWorkTime = getAverageWorkingTime(allTrackings, dailyPauseInMs);
-    csvData = generateCSV(allTrackings, dailyWork, dailyPause, i18n.language);
+  // Recomputed only when the dialog is (re)opened or the relevant settings
+  // change while it's open - not on every unrelated re-render (e.g. this
+  // component used to recompute all of this even if some other part of the
+  // app's Context re-rendered it without showHistory actually flipping).
+  const { allTrackings, averageWorkTime, csvData, overWork } = useMemo(() => {
+    if (!showHistory) {
+      return {
+        allTrackings: [] as Array<DailyTracking>,
+        averageWorkTime: 0,
+        csvData: [] as Array<Array<string | number>>,
+        overWork: 0,
+      };
+    }
 
-    allTrackings.forEach((tracking) => {
-      overWork = overWork + (tracking.end - tracking.start - dailyPauseInMs);
+    const trackings = getAllTrackings();
+    const average = getAverageWorkingTime(trackings, dailyPauseInMs);
+    const csv = generateCSV(trackings, dailyWork, dailyPause, i18n.language);
+
+    let totalOverWork = 0;
+    trackings.forEach((tracking) => {
+      totalOverWork = totalOverWork + (tracking.end - tracking.start - dailyPauseInMs);
     });
-    overWork = overWork - allTrackings.length * hoursToMs(dailyWork);
-  }
+    totalOverWork = totalOverWork - trackings.length * hoursToMs(dailyWork);
+
+    return { allTrackings: trackings, averageWorkTime: average, csvData: csv, overWork: totalOverWork };
+  }, [showHistory, dailyWork, dailyPause, dailyPauseInMs, i18n.language]);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
