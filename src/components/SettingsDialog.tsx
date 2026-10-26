@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../contexts/AppContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
-import { useTrackingContext } from "../contexts/TrackingContext";
+import { useTrackingActions } from "../contexts/TrackingContext";
 import { deleteAllTrackings } from "../utils/TrackingStorage";
 import { showNotification } from "../utils/UI";
 import { availableLanguages } from "../utils/Translations";
@@ -17,8 +17,8 @@ import "react-time-picker/dist/TimePicker.css";
 export const SettingsDialog: React.FC = () => {
   const { showSettings, closeSettings } = useAppContext();
   const { settings, updateSettings } = useSettingsContext();
-  const { resetToday: resetTrackingToday, setCustomStart } = useTrackingContext();
-  const [customStartTime, setCustomStartTime] = useState(new Date());
+  const { resetToday: resetTrackingToday, setCustomStart } = useTrackingActions();
+  const [customStartTime, setCustomStartTime] = useState(() => new Date());
 
   const [deleteActionShow, setDeleteActionShow] = useState(false);
   const [updateDailyWorkShow, setUpdateDailyWorkShow] = useState(false);
@@ -27,7 +27,7 @@ export const SettingsDialog: React.FC = () => {
   const [resetActionShow, setResetActionShow] = useState(false);
   const [customStartTimeShow, setCustomStartTimeShow] = useState(false);
   const [workingDays, setWorkingDays] = useState<Set<number>>(
-    new Set(settings?.workingDays ?? DEFAULT_SETTINGS.workingDays),
+    () => new Set(settings?.workingDays ?? DEFAULT_SETTINGS.workingDays),
   );
 
   const { t, i18n } = useTranslation();

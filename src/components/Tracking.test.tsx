@@ -3,11 +3,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Tracking } from "./Tracking";
 import { SettingsContextProvider } from "../contexts/SettingsContext";
-import { TrackingContextProvider, useTrackingContext } from "../contexts/TrackingContext";
+import { TrackingContextProvider, useTrackingActions } from "../contexts/TrackingContext";
 import { initTranslations } from "../utils/Translations";
 
 const ResetButton: React.FC = () => {
-  const { resetToday } = useTrackingContext();
+  const { resetToday } = useTrackingActions();
   return <button onClick={resetToday}>reset</button>;
 };
 

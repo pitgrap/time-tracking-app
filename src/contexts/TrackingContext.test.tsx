@@ -1,10 +1,11 @@
 import { act } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { TrackingContextProvider, useTrackingContext } from "./TrackingContext";
+import { TrackingContextProvider, useTrackingActions, useTrackingContext } from "./TrackingContext";
 
 const Consumer: React.FC = () => {
-  const { tracking, resetToday, setCustomStart } = useTrackingContext();
+  const { tracking } = useTrackingContext();
+  const { resetToday, setCustomStart } = useTrackingActions();
   return (
     <div>
       <span data-testid="start">{tracking.start}</span>
@@ -16,9 +17,10 @@ const Consumer: React.FC = () => {
 };
 
 // Simulates the Settings dialog: it can call resetToday()/setCustomStart()
-// without ever rendering the live tracking display.
+// without ever rendering the live tracking display, and - crucially - without
+// subscribing to the ticking TrackingContext at all.
 const SettingsLikeConsumer: React.FC = () => {
-  const { resetToday } = useTrackingContext();
+  const { resetToday } = useTrackingActions();
   return <button onClick={resetToday}>reset</button>;
 };
 
@@ -94,5 +96,30 @@ describe("TrackingContextProvider", () => {
 
     expect(screen.getByTestId("start")).toHaveTextContent("123456");
     expect(screen.getByTestId("end")).toHaveTextContent(endBefore!);
+  });
+
+  it("does not re-render a consumer that only uses the stable actions, even as the clock ticks", async () => {
+    vi.useFakeTimers();
+    let actionsOnlyRenderCount = 0;
+
+    const ActionsOnlyConsumer: React.FC = () => {
+      useTrackingActions();
+      actionsOnlyRenderCount++;
+      return null;
+    };
+
+    render(
+      <TrackingContextProvider>
+        <ActionsOnlyConsumer />
+      </TrackingContextProvider>,
+    );
+
+    expect(actionsOnlyRenderCount).toBe(1);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5000);
+    });
+
+    expect(actionsOnlyRenderCount).toBe(1);
   });
 });
