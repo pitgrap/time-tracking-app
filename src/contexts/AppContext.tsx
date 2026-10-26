@@ -1,15 +1,12 @@
 import React, { useCallback, useState } from "react";
 import { AppContext, Props } from "../models/App";
 
-const appContext = React.createContext<AppContext>({
-  showSettings: false,
-  showHistory: false,
-});
+const appContext = React.createContext<AppContext | undefined>(undefined);
 
-export const useAppContext = () => {
+export const useAppContext = (): AppContext => {
   const context = React.useContext(appContext);
-  if (context === undefined) {
-    throw new Error("useSettingsContextState must be used within a SettingsContextProvider");
+  if (!context) {
+    throw new Error("useAppContext must be used within an AppContextProvider");
   }
   return context;
 };
